@@ -152,10 +152,8 @@ bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
 # Bot status rotation
 status_list = [
-    "Moderating your server!",
+    "Powered by ShadowMods!",
     "Use !help for help!",
-    "Here to assist!",
-    "Managing with ease!"
 ]
 
 @tasks.loop(seconds=30)
