@@ -1,0 +1,6 @@
+discord.py
+requests
+flask
+python-dotenv
+werkzeug
+google-api-python-client
