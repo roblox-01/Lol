@@ -304,7 +304,32 @@ async def commands_list(ctx):
 
 @bot.command(name="apply")
 async def apply(ctx):
-    # Define the list of questions
+    # Category where the channel will be created
+    category_name = "Applications"  # Change this to your desired category name
+    category = discord.utils.get(ctx.guild.categories, name=category_name)
+    
+    if not category:
+        # If the category doesn't exist, create it
+        category = await ctx.guild.create_category(category_name)
+
+    # Create a new private text channel
+    channel_name = f"application-{ctx.author.name.lower()}"
+    channel = await ctx.guild.create_text_channel(channel_name, category=category)
+
+    # Set the permissions for the new channel so that only the user and certain roles can see it
+    await channel.set_permissions(ctx.author, read_messages=True, send_messages=True)
+    await channel.set_permissions(ctx.guild.default_role, read_messages=False)  # Make it private for everyone else
+    
+    # Set specific roles who can see the channel (Example: 'Admin' and 'Moderator')
+    for role_name in ['Admin', 'Moderator']:  # Add any roles that should have access
+        role = discord.utils.get(ctx.guild.roles, name=role_name)
+        if role:
+            await channel.set_permissions(role, read_messages=True)
+
+    # Send a confirmation message in the new channel
+    await channel.send(f"Hello {ctx.author.mention}, please answer the following questions for your moderator application:")
+
+    # List of questions for the application
     questions = [
         "What experience do you have in moderating online communities?",
         "How would you handle a situation where a user is breaking the rules?",
@@ -317,38 +342,10 @@ async def apply(ctx):
         "Are you comfortable handling sensitive or controversial situations?",
         "How do you stay up to date with new tools and technologies in gaming and development?"
     ]
-    
-    # Select 5 random questions
-    selected_questions = random.sample(questions, 5)
-    
-    # Create a private text channel for the user
-    overwrites = {
-        ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False),  # Hide from everyone
-        ctx.author: discord.PermissionOverwrite(read_messages=True),  # Show for the user applying
-    }
 
-    # Set the permissions for moderators or specific roles to also see the channel
-    mod_role = discord.utils.get(ctx.guild.roles, name="Moderator")  # Adjust role name if necessary
-    if mod_role:
-        overwrites[mod_role] = discord.PermissionOverwrite(read_messages=True)
-
-    # Create the channel
-    category = discord.utils.get(ctx.guild.categories, name="Applications")  # You can create a category for applications if desired
-    channel = await ctx.guild.create_text_channel(f"apply-{ctx.author.name}", category=category, overwrites=overwrites)
-    
-    # Send the application questions in the new channel
-    embed = discord.Embed(
-        title="Moderator Application",
-        description="Please answer the following questions to apply for a moderator position:",
-        color=discord.Color.blue()
-    )
-    for i, question in enumerate(selected_questions, 1):
-        embed.add_field(name=f"Question {i}", value=question, inline=False)
-
-    await channel.send(embed=embed)
-
-    # Notify the user
-    await ctx.send(f"Your application channel has been created: {channel.mention}. Please check there for your questions!")
+    # Send the questions to the new channel
+    for i, question in enumerate(questions, 1):
+        await channel.send(f"**Question {i}:** {question}")
 
 @bot.command(name="applyhelp")
 async def applyhelp(ctx):
