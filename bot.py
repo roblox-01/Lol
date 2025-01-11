@@ -448,7 +448,7 @@ async def delete_ticket(ctx, channel_id: int):
 @bot.command(name="close_ticket")
 async def close_ticket(ctx, channel_id: int):
     # Predefined closed category ID
-    closed_category_id = 987654321098765432  # Replace this with your actual closed category ID
+    closed_category_id = 1327779969983840357  # Replace this with your actual closed category ID
 
     # Get the channel by the provided channel_id
     ticket_channel = ctx.guild.get_channel(channel_id)
