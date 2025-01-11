@@ -304,32 +304,25 @@ async def commands_list(ctx):
 
 @bot.command(name="apply")
 async def apply(ctx):
-    # Category where the channel will be created
-    category_name = "✴|〔 Mod Tickets 〕|✴"  # Change this to your desired category name
-    category = discord.utils.get(ctx.guild.categories, name=category_name)
-    
-    if not category:
-        # If the category doesn't exist, create it
-        category = await ctx.guild.create_category(category_name)
+    # Define the category ID where the new channel will be placed
+    category_id = 1327779882234810551  # Replace with the desired category ID
+    category = discord.utils.get(ctx.guild.categories, id=category_id)
 
-    # Create a new private text channel
-    channel_name = f"application-{ctx.author.name.lower()}"
-    channel = await ctx.guild.create_text_channel(channel_name, category=category)
+    if category is None:
+        await ctx.send("The specified category does not exist.")
+        return
 
-    # Set the permissions for the new channel so that only the user and certain roles can see it
-    await channel.set_permissions(ctx.author, read_messages=True, send_messages=True)
-    await channel.set_permissions(ctx.guild.default_role, read_messages=False)  # Make it private for everyone else
-    
-    # Set specific roles who can see the channel (Example: 'Admin' and 'Moderator')
-    for role_name in ['⚙️Server Staff', 'Support Staff']:  # Add any roles that should have access
-        role = discord.utils.get(ctx.guild.roles, name=role_name)
-        if role:
-            await channel.set_permissions(role, read_messages=True)
+    # Create a private text channel for the user who sent the command
+    channel = await ctx.guild.create_text_channel(f"{ctx.author.name}-apply", category=category)
 
-    # Send a confirmation message in the new channel
-    await channel.send(f"Hello {ctx.author.mention}, please answer the following questions for your moderator application:")
+    # Set permissions so only the user and certain roles can see the channel
+    await channel.set_permissions(ctx.guild.default_role, read_messages=False)  # Hide the channel from everyone else
+    await channel.set_permissions(ctx.author, read_messages=True)  # Allow the user to see their own channel
+    # Here you can also set permissions for any specific roles if needed:
+    # Example:
+    # await channel.set_permissions(some_role, read_messages=True)
 
-    # List of new questions
+    # Send the questions in the new channel
     questions = [
         "1. What experience do you have with game cheats, web development, AI development, or Discord bot development?",
         "2. How would you handle a situation where a user is discussing or sharing cheats in a game where it is not allowed?",
@@ -343,9 +336,12 @@ async def apply(ctx):
         "10. Why do you want to be a moderator for ShadowMods, and how would your technical knowledge benefit the server community?"
     ]
 
-    # Send the questions to the new channel
+    # Send the questions to the new private channel
     for question in questions:
         await channel.send(question)
+
+    # Notify the user the channel has been created
+    await ctx.send(f"Your application channel has been created: {channel.mention}")
 
 @bot.command(name="applyhelp")
 async def applyhelp(ctx):
