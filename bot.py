@@ -410,7 +410,7 @@ async def close_ticket(ctx):
 @bot.command(name="create_ticket")
 async def create_ticket(ctx):
     # Define the category ID where the help ticket will be placed
-    category_id = 123456789012345678  # Replace with the desired category ID for help tickets
+    category_id = 1327780139911872532  # Replace with the desired category ID for help tickets
     category = discord.utils.get(ctx.guild.categories, id=category_id)
 
     if category is None:
