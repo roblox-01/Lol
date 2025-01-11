@@ -305,7 +305,7 @@ async def commands_list(ctx):
 @bot.command(name="apply")
 async def apply(ctx):
     # Category where the channel will be created
-    category_name = "Applications"  # Change this to your desired category name
+    category_name = "✴|〔 Mod Tickets 〕|✴"  # Change this to your desired category name
     category = discord.utils.get(ctx.guild.categories, name=category_name)
     
     if not category:
@@ -321,7 +321,7 @@ async def apply(ctx):
     await channel.set_permissions(ctx.guild.default_role, read_messages=False)  # Make it private for everyone else
     
     # Set specific roles who can see the channel (Example: 'Admin' and 'Moderator')
-    for role_name in ['Admin', 'Moderator']:  # Add any roles that should have access
+    for role_name in ['⚙️Server Staff', 'Support Staff']:  # Add any roles that should have access
         role = discord.utils.get(ctx.guild.roles, name=role_name)
         if role:
             await channel.set_permissions(role, read_messages=True)
@@ -329,23 +329,23 @@ async def apply(ctx):
     # Send a confirmation message in the new channel
     await channel.send(f"Hello {ctx.author.mention}, please answer the following questions for your moderator application:")
 
-    # List of questions for the application
+    # List of new questions
     questions = [
-        "What experience do you have in moderating online communities?",
-        "How would you handle a situation where a user is breaking the rules?",
-        "Why do you want to become a mod in ShadowMods?",
-        "Can you give an example of when you had to resolve a conflict between users?",
-        "How familiar are you with game cheats and modifications?",
-        "Have you ever created a Discord bot or participated in web development?",
-        "How would you handle a situation where a bot or server function stops working?",
-        "How much time can you dedicate to moderating the server each week?",
-        "Are you comfortable handling sensitive or controversial situations?",
-        "How do you stay up to date with new tools and technologies in gaming and development?"
+        "1. What experience do you have with game cheats, web development, AI development, or Discord bot development?",
+        "2. How would you handle a situation where a user is discussing or sharing cheats in a game where it is not allowed?",
+        "3. What is your approach to handling technical questions from users who need help with coding or development issues?",
+        "4. How would you manage a situation where a user posts malicious code or harmful scripts in the server?",
+        "5. What steps would you take if a user reported another for violating the server’s rules or using cheats unethically?",
+        "6. How familiar are you with server management tools, and which tools would you use to maintain a secure environment in ShadowMods?",
+        "7. How would you handle a disagreement between two members on a development project or hack you’re working on?",
+        "8. How do you ensure the server stays informative and helpful, especially for users learning about development or game cheats?",
+        "9. What would you do if a user was spamming the server with development tools or tools related to game cheats that are not relevant to the current topic?",
+        "10. Why do you want to be a moderator for ShadowMods, and how would your technical knowledge benefit the server community?"
     ]
 
     # Send the questions to the new channel
-    for i, question in enumerate(questions, 1):
-        await channel.send(f"**Question {i}:** {question}")
+    for question in questions:
+        await channel.send(question)
 
 @bot.command(name="applyhelp")
 async def applyhelp(ctx):
