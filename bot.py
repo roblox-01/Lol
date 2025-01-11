@@ -304,6 +304,7 @@ async def commands_list(ctx):
 
 @bot.command(name="apply")
 async def apply(ctx):
+    # Define the list of questions
     questions = [
         "What experience do you have in moderating online communities?",
         "How would you handle a situation where a user is breaking the rules?",
@@ -316,8 +317,26 @@ async def apply(ctx):
         "Are you comfortable handling sensitive or controversial situations?",
         "How do you stay up to date with new tools and technologies in gaming and development?"
     ]
+    
+    # Select 5 random questions
+    selected_questions = random.sample(questions, 5)
+    
+    # Create a private text channel for the user
+    overwrites = {
+        ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False),  # Hide from everyone
+        ctx.author: discord.PermissionOverwrite(read_messages=True),  # Show for the user applying
+    }
 
-    selected_questions = random.sample(questions, 5)  # Select 5 random questions
+    # Set the permissions for moderators or specific roles to also see the channel
+    mod_role = discord.utils.get(ctx.guild.roles, name="Moderator")  # Adjust role name if necessary
+    if mod_role:
+        overwrites[mod_role] = discord.PermissionOverwrite(read_messages=True)
+
+    # Create the channel
+    category = discord.utils.get(ctx.guild.categories, name="Applications")  # You can create a category for applications if desired
+    channel = await ctx.guild.create_text_channel(f"apply-{ctx.author.name}", category=category, overwrites=overwrites)
+    
+    # Send the application questions in the new channel
     embed = discord.Embed(
         title="Moderator Application",
         description="Please answer the following questions to apply for a moderator position:",
@@ -325,8 +344,11 @@ async def apply(ctx):
     )
     for i, question in enumerate(selected_questions, 1):
         embed.add_field(name=f"Question {i}", value=question, inline=False)
-    
-    await ctx.send(embed=embed)
+
+    await channel.send(embed=embed)
+
+    # Notify the user
+    await ctx.send(f"Your application channel has been created: {channel.mention}. Please check there for your questions!")
 
 @bot.command(name="ping")
 async def ping(ctx):
