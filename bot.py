@@ -297,6 +297,13 @@ async def commands_list(ctx):
             "`!undeafen [member]` – Undeafen a user.\n"
             "`!move [member] [channel]` – Move a user to a voice channel.\n"
             "`!purge [number]` – Delete the last N messages.\n"
+            "**Application Commands:**\n"
+            "`!apply` – Start the application process for becoming a moderator.\n"
+            "`!applyhelp` – View the questions for the application process.\n"
+            "**Ticket Commands:**\n"
+            "`!create_ticket` – Create a help ticket.\n"
+            "`!close_ticket` – Close a help ticket.\n"
+            "`!delete_ticket [channel_id]` – Delete a ticket with a given channel ID.\n"
         ),
         color=discord.Color.blue()
     )
