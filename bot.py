@@ -363,6 +363,26 @@ async def applyhelp(ctx):
     for question in questions:
         await ctx.send(question)
 
+@bot.command(name="delete_ticket")
+async def delete_ticket(ctx, channel_id: int):
+    # Fetch the channel by ID
+    channel = ctx.guild.get_channel(channel_id)
+
+    if channel is None:
+        await ctx.send(f"Channel with ID {channel_id} does not exist.")
+        return
+
+    # Ensure that the user has the appropriate permissions to delete the channel
+    if not ctx.author.permissions_in(channel).manage_channels:
+        await ctx.send("You do not have permission to delete this channel.")
+        return
+
+    # Delete the channel
+    await channel.delete()
+
+    # Notify the user that the ticket has been deleted
+    await ctx.send(f"Ticket channel {channel.name} has been deleted.")
+
 @bot.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(
