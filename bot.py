@@ -446,28 +446,27 @@ async def delete_ticket(ctx, channel_id: int):
     await ctx.send(f"Ticket channel {channel.name} has been deleted.")
 
 @bot.command(name="close_ticket")
-async def close_ticket(ctx):
-    # Check if the author is in a ticket channel (i.e., channel name contains "-ticket")
-    if "-ticket" not in ctx.channel.name:
-        await ctx.send("This command can only be used in a ticket channel.")
+async def close_ticket(ctx, channel_id: int):
+    # Predefined closed category ID
+    closed_category_id = 987654321098765432  # Replace this with your actual closed category ID
+
+    # Get the channel by the provided channel_id
+    ticket_channel = ctx.guild.get_channel(channel_id)
+
+    if ticket_channel is None:
+        await ctx.send("Invalid channel ID. Please provide a valid channel ID.")
         return
 
-    # Define the category ID where closed tickets will be moved
-    closed_category_id = 1327779969983840357  # Replace with your desired "Closed Tickets" category ID
-    closed_category = discord.utils.get(ctx.guild.categories, id=closed_category_id)
+    # Get the closed category by the predefined closed_category_id
+    closed_category = ctx.guild.get_channel(closed_category_id)
 
-    if closed_category is None:
-        await ctx.send("The specified closed tickets category does not exist.")
+    if closed_category is None or not isinstance(closed_category, discord.CategoryChannel):
+        await ctx.send("Invalid category ID for closed tickets. Please check the category ID.")
         return
 
-    # Move the ticket channel to the "Closed Tickets" category
-    await ctx.channel.edit(category=closed_category)
-
-    # Optionally, you can lock the channel to prevent further messages from being sent after closing
-    await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
-
-    # Notify the user that the ticket has been closed and moved to the "Closed Tickets" category
-    await ctx.send(f"This ticket has been closed and moved to {closed_category.name}. If you need further assistance, please create a new ticket.")
+    # Move the ticket channel to the closed category
+    await ticket_channel.edit(category=closed_category)
+    await ctx.send(f"Ticket channel has been moved to the **{closed_category.name}** category.")
 
 @bot.command(name="create_ticket")
 async def create_ticket(ctx):
