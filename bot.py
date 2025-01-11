@@ -309,6 +309,61 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
 
+@bot.command(name="faq")
+async def faq(ctx):
+    faq_embed = discord.Embed(
+        title="Frequently Asked Questions (FAQ)",
+        description=(
+            "**1. How do I get started with game cheats in the server?**\n"
+            "To get started, check out the **#game-cheats** channel where we share resources, guides, and discussions. Make sure to follow the server rules and guidelines for safe and ethical use of cheats.\n\n"
+            
+            "**2. What tools or software do I need to participate in the development discussions?**\n"
+            "For development discussions, you may want to install basic coding tools like **Visual Studio Code** or **PyCharm** for programming. We also recommend using version control tools like **Git** for collaborative projects.\n\n"
+            
+            "**3. Can I share my own game cheats or mods here?**\n"
+            "Yes, you can share your cheats or mods in the appropriate channels, but make sure they are in line with the server's rules and do not promote harmful or unethical behavior.\n\n"
+            
+            "**4. What do I do if I encounter a bug in one of the development projects?**\n"
+            "If you find a bug, report it in the **#bug-reports** channel. Provide detailed information about the bug, including how to replicate it and any error messages you encountered.\n\n"
+            
+            "**5. How can I apply to become a moderator or staff member?**\n"
+            "To apply for a moderator role, use the **!apply** command. Fill out the form with your information and experience, and our staff team will review your application.\n\n"
+            
+            "**6. Are there any rules regarding the sharing of code or scripts?**\n"
+            "Yes, we expect all code and scripts to be shared responsibly. Make sure they are properly tested, documented, and not harmful. Follow our **#rules** channel for detailed guidelines.\n\n"
+            
+            "**7. How can I report a bug or issue in the server's bots?**\n"
+            "To report a bot issue, use the **#bot-support** channel. Include details about the problem you're facing, any error messages, and steps to replicate the issue.\n\n"
+            
+            "**8. Where can I find resources to help me learn about game development or AI?**\n"
+            "We have dedicated channels for learning resources in the server, such as **#game-dev-resources** and **#ai-learning**. You can also ask the community for suggestions on tutorials and tools.\n\n"
+            
+            "**9. How do I request help for coding or development problems?**\n"
+            "You can ask for help in the **#coding-help** channel. Be sure to provide clear descriptions of your problem, any code snippets, and what you've tried so far.\n\n"
+            
+            "**10. What do I do if I see someone breaking the rules in the server?**\n"
+            "If you see rule-breaking behavior, report it to a staff member or use the **!report** command to file a report. Provide evidence, such as screenshots or messages.\n\n"
+            
+            "**11. Can I post my own custom mods or bots for others to use?**\n"
+            "Yes, feel free to share your mods or bots in the **#mods-and-bots** channel, but make sure they are safe to use and adhere to the server's guidelines.\n\n"
+            
+            "**12. How do I create my own server-related tool or bot?**\n"
+            "To create your own bot, we recommend learning a programming language like **Python** or **JavaScript** and familiarizing yourself with **Discord.py** or **Discord.js**. You can ask for guidance in the **#dev-discussions** channel.\n\n"
+            
+            "**13. What is the process for requesting a new feature in the server’s bots?**\n"
+            "If you want to request a feature, post your suggestion in the **#bot-suggestions** channel. The team will review the idea and decide if it aligns with the server’s goals.\n\n"
+            
+            "**14. How do I make sure I’m following the server’s guidelines and policies?**\n"
+            "To ensure you're following the guidelines, regularly check the **#rules** channel. If you're ever unsure about something, feel free to ask a staff member for clarification.\n\n"
+            
+            "**15. Can I get help with game cheats that are only for single-player games?**\n"
+            "Yes, the server also discusses single-player game cheats in specific channels. Just be mindful of the server's rules and ensure your discussions do not encourage unethical or illegal activities.\n\n"
+        ),
+        color=discord.Color.green()
+    )
+
+    await ctx.send(embed=faq_embed)
+
 @bot.command(name="apply")
 async def apply(ctx):
     # Define the category ID where the new channel will be placed
