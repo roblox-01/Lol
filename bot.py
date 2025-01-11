@@ -396,6 +396,33 @@ async def close_ticket(ctx):
     # Notify the user that the ticket has been closed
     await ctx.send("This ticket has been closed. If you need further assistance, please create a new ticket.")
 
+@bot.command(name="create_ticket")
+async def create_ticket(ctx):
+    # Define the category ID where the help ticket will be placed
+    category_id = 123456789012345678  # Replace with the desired category ID for help tickets
+    category = discord.utils.get(ctx.guild.categories, id=category_id)
+
+    if category is None:
+        await ctx.send("The specified category does not exist.")
+        return
+
+    # Create a private text channel for the user to describe their issue
+    channel = await ctx.guild.create_text_channel(f"{ctx.author.name}-ticket", category=category)
+
+    # Set permissions so only the user and staff can see the channel
+    await channel.set_permissions(ctx.guild.default_role, read_messages=False)  # Hide from everyone else
+    await channel.set_permissions(ctx.author, read_messages=True)  # Allow the user to see their own ticket
+    # Set permissions for staff/support role
+    support_role = discord.utils.get(ctx.guild.roles, name="Support")  # Replace with your role name
+    if support_role:
+        await channel.set_permissions(support_role, read_messages=True)
+
+    # Send a message to the newly created channel, instructing the user
+    await channel.send(f"Hello {ctx.author.mention}, please describe your issue and a staff member will assist you shortly.")
+    
+    # Optionally, notify the user that the ticket has been created
+    await ctx.send(f"Your ticket has been created: {channel.mention}. Please check the channel to describe your issue.")
+
 @bot.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(
