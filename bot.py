@@ -391,7 +391,7 @@ async def close_ticket(ctx):
         return
 
     # Define the category ID where closed tickets will be moved
-    closed_category_id = 123456789012345678  # Replace with your desired "Closed Tickets" category ID
+    closed_category_id = 1327779969983840357  # Replace with your desired "Closed Tickets" category ID
     closed_category = discord.utils.get(ctx.guild.categories, id=closed_category_id)
 
     if closed_category is None:
