@@ -383,6 +383,19 @@ async def delete_ticket(ctx, channel_id: int):
     # Notify the user that the ticket has been deleted
     await ctx.send(f"Ticket channel {channel.name} has been deleted.")
 
+@bot.command(name="close_ticket")
+async def close_ticket(ctx):
+    # Check if the author is in a ticket channel (i.e., channel name contains "-ticket")
+    if "-ticket" not in ctx.channel.name:
+        await ctx.send("This command can only be used in a ticket channel.")
+        return
+
+    # Lock the ticket channel (disable sending messages for everyone)
+    await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
+
+    # Notify the user that the ticket has been closed
+    await ctx.send("This ticket has been closed. If you need further assistance, please create a new ticket.")
+
 @bot.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(
