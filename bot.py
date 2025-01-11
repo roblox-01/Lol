@@ -302,6 +302,32 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
 
+@bot.command(name="apply")
+async def apply(ctx):
+    questions = [
+        "What experience do you have in moderating online communities?",
+        "How would you handle a situation where a user is breaking the rules?",
+        "Why do you want to become a mod in ShadowMods?",
+        "Can you give an example of when you had to resolve a conflict between users?",
+        "How familiar are you with game cheats and modifications?",
+        "Have you ever created a Discord bot or participated in web development?",
+        "How would you handle a situation where a bot or server function stops working?",
+        "How much time can you dedicate to moderating the server each week?",
+        "Are you comfortable handling sensitive or controversial situations?",
+        "How do you stay up to date with new tools and technologies in gaming and development?"
+    ]
+
+    selected_questions = random.sample(questions, 5)  # Select 5 random questions
+    embed = discord.Embed(
+        title="Moderator Application",
+        description="Please answer the following questions to apply for a moderator position:",
+        color=discord.Color.blue()
+    )
+    for i, question in enumerate(selected_questions, 1):
+        embed.add_field(name=f"Question {i}", value=question, inline=False)
+    
+    await ctx.send(embed=embed)
+
 @bot.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(
