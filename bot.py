@@ -349,31 +349,23 @@ async def apply(ctx):
 
 @bot.command(name="applyhelp")
 async def applyhelp(ctx):
-    # List of all questions
+    # Send the list of questions to the user who called the command
     questions = [
-        "What experience do you have in moderating online communities?",
-        "How would you handle a situation where a user is breaking the rules?",
-        "Why do you want to become a mod in ShadowMods?",
-        "Can you give an example of when you had to resolve a conflict between users?",
-        "How familiar are you with game cheats and modifications?",
-        "Have you ever created a Discord bot or participated in web development?",
-        "How would you handle a situation where a bot or server function stops working?",
-        "How much time can you dedicate to moderating the server each week?",
-        "Are you comfortable handling sensitive or controversial situations?",
-        "How do you stay up to date with new tools and technologies in gaming and development?"
+        "1. What experience do you have with game cheats, web development, AI development, or Discord bot development?",
+        "2. How would you handle a situation where a user is discussing or sharing cheats in a game where it is not allowed?",
+        "3. What is your approach to handling technical questions from users who need help with coding or development issues?",
+        "4. How would you manage a situation where a user posts malicious code or harmful scripts in the server?",
+        "5. What steps would you take if a user reported another for violating the server’s rules or using cheats unethically?",
+        "6. How familiar are you with server management tools, and which tools would you use to maintain a secure environment in ShadowMods?",
+        "7. How would you handle a disagreement between two members on a development project or hack you’re working on?",
+        "8. How do you ensure the server stays informative and helpful, especially for users learning about development or game cheats?",
+        "9. What would you do if a user was spamming the server with development tools or tools related to game cheats that are not relevant to the current topic?",
+        "10. Why do you want to be a moderator for ShadowMods, and how would your technical knowledge benefit the server community?"
     ]
-    
-    # Create an embed with all the questions
-    embed = discord.Embed(
-        title="Moderator Application Help",
-        description="Here are all the questions you will be asked when applying for a moderator position:",
-        color=discord.Color.green()
-    )
-    for i, question in enumerate(questions, 1):
-        embed.add_field(name=f"Question {i}", value=question, inline=False)
 
-    # Send the embed with all questions
-    await ctx.send(embed=embed)
+    # Send the questions to the user who called the command
+    for question in questions:
+        await ctx.send(question)
 
 @bot.command(name="ping")
 async def ping(ctx):
