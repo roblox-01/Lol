@@ -390,11 +390,22 @@ async def close_ticket(ctx):
         await ctx.send("This command can only be used in a ticket channel.")
         return
 
-    # Lock the ticket channel (disable sending messages for everyone)
+    # Define the category ID where closed tickets will be moved
+    closed_category_id = 123456789012345678  # Replace with your desired "Closed Tickets" category ID
+    closed_category = discord.utils.get(ctx.guild.categories, id=closed_category_id)
+
+    if closed_category is None:
+        await ctx.send("The specified closed tickets category does not exist.")
+        return
+
+    # Move the ticket channel to the "Closed Tickets" category
+    await ctx.channel.edit(category=closed_category)
+
+    # Optionally, you can lock the channel to prevent further messages from being sent after closing
     await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
 
-    # Notify the user that the ticket has been closed
-    await ctx.send("This ticket has been closed. If you need further assistance, please create a new ticket.")
+    # Notify the user that the ticket has been closed and moved to the "Closed Tickets" category
+    await ctx.send(f"This ticket has been closed and moved to {closed_category.name}. If you need further assistance, please create a new ticket.")
 
 @bot.command(name="create_ticket")
 async def create_ticket(ctx):
