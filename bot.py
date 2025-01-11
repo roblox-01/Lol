@@ -350,6 +350,34 @@ async def apply(ctx):
     # Notify the user
     await ctx.send(f"Your application channel has been created: {channel.mention}. Please check there for your questions!")
 
+@bot.command(name="applyhelp")
+async def applyhelp(ctx):
+    # List of all questions
+    questions = [
+        "What experience do you have in moderating online communities?",
+        "How would you handle a situation where a user is breaking the rules?",
+        "Why do you want to become a mod in ShadowMods?",
+        "Can you give an example of when you had to resolve a conflict between users?",
+        "How familiar are you with game cheats and modifications?",
+        "Have you ever created a Discord bot or participated in web development?",
+        "How would you handle a situation where a bot or server function stops working?",
+        "How much time can you dedicate to moderating the server each week?",
+        "Are you comfortable handling sensitive or controversial situations?",
+        "How do you stay up to date with new tools and technologies in gaming and development?"
+    ]
+    
+    # Create an embed with all the questions
+    embed = discord.Embed(
+        title="Moderator Application Help",
+        description="Here are all the questions you will be asked when applying for a moderator position:",
+        color=discord.Color.green()
+    )
+    for i, question in enumerate(questions, 1):
+        embed.add_field(name=f"Question {i}", value=question, inline=False)
+
+    # Send the embed with all questions
+    await ctx.send(embed=embed)
+
 @bot.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(
