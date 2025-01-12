@@ -309,6 +309,36 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
 
+@bot.command(name="rules")
+async def rules(ctx):
+    """
+    Sends the server rules in an embedded message with emojis for a fun presentation.
+    """
+    embed = discord.Embed(
+        title="🎮 Welcome to ShadowMods Server! 🚀",
+        description="Let's keep this community awesome by following these rules:",
+        color=discord.Color.purple()
+    )
+    rules_list = [
+        "1. **🤝 Respect Everyone**: Treat all members with kindness. No harassment, hate speech, or discrimination!",
+        "2. **🚫 No Spamming**: Keep the chat clean. Avoid spamming messages, links, or images.",
+        "3. **📜 Follow Discord's ToS**: Make sure you're familiar with [Discord's Terms of Service](https://discord.com/terms).",
+        "4. **💻 No Malicious Content**: Sharing harmful or dangerous code is a big no-no.",
+        "5. **🏷️ Use the Right Channels**: Stay on-topic and post in the appropriate channels.",
+        "6. **🎮 All Cheats Are Welcome**: As long as they are not malicious, feel free to discuss cheats for supported games.",
+        "7. **🚨 Report Issues**: Use `!report` to inform us about rule breakers or problems.",
+        "8. **🔞 Keep it Safe for Work**: No NSFW content, please. Keep the community safe for everyone!",
+        "9. **📢 No Self-Promotion**: Don’t advertise your own stuff without permission from a moderator.",
+        "10. **🛡️ Listen to Moderators**: Moderators have the final say. Be respectful if you're corrected."
+    ]
+
+    # Add rules to the embed
+    for rule in rules_list:
+        embed.add_field(name="\u200b", value=rule, inline=False)
+
+    embed.set_footer(text="Thanks for keeping the community fun and safe! 🎉")
+    await ctx.send(embed=embed)
+
 @bot.command(name="faq")
 async def faq(ctx):
     faq_embed = discord.Embed(
