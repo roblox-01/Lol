@@ -336,10 +336,10 @@ async def faq(ctx):
             "To report a bot issue, use the **#bot-support** channel. Include details about the problem you're facing, any error messages, and steps to replicate the issue.\n\n"
             
             "**8. Where can I find resources to help me learn about game development or AI?**\n"
-            "We have dedicated channels for learning resources in the server, such as **#game-dev-resources** and **#ai-learning**. You can also ask the community for suggestions on tutorials and tools.\n\n"
+            "We have dedicated channels for learning resources in the server, such as <#1327788397275906058> and <#1327788436869877801>. You can also ask the community for suggestions on tutorials and tools.\n\n"
             
             "**9. How do I request help for coding or development problems?**\n"
-            "You can ask for help in the **#coding-help** channel. Be sure to provide clear descriptions of your problem, any code snippets, and what you've tried so far.\n\n"
+            "You can ask for help in the <#1327788264064815288> channel. Be sure to provide clear descriptions of your problem, any code snippets, and what you've tried so far.\n\n"
             
             "**10. What do I do if I see someone breaking the rules in the server?**\n"
             "If you see rule-breaking behavior, report it to a staff member or use the **!report** command to file a report. Provide evidence, such as screenshots or messages.\n\n"
@@ -351,7 +351,7 @@ async def faq(ctx):
             "To create your own bot, we recommend learning a programming language like **Python** or **JavaScript** and familiarizing yourself with **Discord.py** or **Discord.js**. You can ask for guidance in the **#dev-discussions** channel.\n\n"
             
             "**13. What is the process for requesting a new feature in the server’s bots?**\n"
-            "If you want to request a feature, post your suggestion in the **#bot-suggestions** channel. The team will review the idea and decide if it aligns with the server’s goals.\n\n"
+            "If you want to request a feature, post your suggestion in the <#1327787992261197950> channel. The team will review the idea and decide if it aligns with the server’s goals.\n\n"
             
             "**14. How do I make sure I’m following the server’s guidelines and policies?**\n"
             "To ensure you're following the guidelines, regularly check the **#rules** channel. If you're ever unsure about something, feel free to ask a staff member for clarification.\n\n"
