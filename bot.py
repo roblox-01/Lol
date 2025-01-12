@@ -495,6 +495,66 @@ async def create_ticket(ctx):
     # Optionally, notify the user that the ticket has been created
     await ctx.send(f"Your ticket has been created: {channel.mention}. Please check the channel to describe your issue.")
 
+@bot.command(name="report")
+async def report(ctx, *, reason=None):
+    # Ensure a reason is provided
+    if reason is None:
+        await ctx.send("Please specify the reason for the report. Usage: `!report [reason]`")
+        return
+
+    # Check if the user attached an image
+    if not ctx.message.attachments:
+        await ctx.send(
+            "You must provide photo evidence for your report. Please attach an image and try again."
+        )
+        return
+
+    # Get the first attachment (assuming it's the photo evidence)
+    attachment = ctx.message.attachments[0]
+
+    # Ensure the attachment is an image
+    if not any(attachment.filename.lower().endswith(ext) for ext in ["png", "jpg", "jpeg", "gif"]):
+        await ctx.send("The attached file must be an image (png, jpg, jpeg, gif).")
+        return
+
+    # Define the category ID where the report channels will be created
+    category_id = 1327797397648314410  # Replace with your actual category ID
+    category = discord.utils.get(ctx.guild.categories, id=category_id)
+
+    if category is None:
+        await ctx.send("The report category is not set up properly. Please contact an admin.")
+        return
+
+    # Create a new channel for the report
+    channel_name = f"report-{ctx.author.name}-{ctx.author.discriminator}"
+    report_channel = await ctx.guild.create_text_channel(
+        name=channel_name,
+        category=category,
+        reason="New report created",
+        topic=f"Report by {ctx.author} - Reason: {reason}",
+    )
+
+    # Set permissions so only relevant people can see the channel
+    await report_channel.set_permissions(ctx.guild.default_role, read_messages=False)
+    await report_channel.set_permissions(ctx.author, read_messages=True, send_messages=True)
+
+    # Send the report details to the new channel
+    embed = discord.Embed(
+        title="New Report",
+        description=f"**Reporter:** {ctx.author.mention}\n"
+                    f"**Reason:** {reason}\n"
+                    f"**Channel:** {ctx.channel.mention}",
+        color=discord.Color.red(),
+    )
+    embed.set_image(url=attachment.url)
+    embed.set_footer(text=f"User ID: {ctx.author.id}")
+
+    await report_channel.send(embed=embed)
+    await report_channel.send(f"{ctx.author.mention}, thank you for submitting your report. A staff member will review it shortly.")
+
+    # Notify the user that the report has been submitted
+    await ctx.send(f"Your report has been submitted successfully! Please check {report_channel.mention} for further updates.")
+
 @bot.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(
