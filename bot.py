@@ -426,24 +426,31 @@ async def applyhelp(ctx):
         await ctx.send(question)
 
 @bot.command(name="delete_ticket")
+@commands.has_permissions(manage_channels=True)
 async def delete_ticket(ctx, channel_id: int):
+    """
+    Deletes a channel with the given ID.
+    """
     # Fetch the channel by ID
-    channel = ctx.guild.get_channel(channel_id)
-
+    channel = discord.utils.get(ctx.guild.channels, id=channel_id)
+    
     if channel is None:
-        await ctx.send(f"Channel with ID {channel_id} does not exist.")
+        await ctx.send(f"Channel with ID `{channel_id}` does not exist or is not in this server.")
         return
 
-    # Ensure that the user has the appropriate permissions to delete the channel
-    if not ctx.author.permissions_in(channel).manage_channels:
-        await ctx.send("You do not have permission to delete this channel.")
+    # Check if the channel is a text channel
+    if not isinstance(channel, discord.TextChannel):
+        await ctx.send(f"Channel with ID `{channel_id}` is not a text channel.")
         return
 
-    # Delete the channel
-    await channel.delete()
-
-    # Notify the user that the ticket has been deleted
-    await ctx.send(f"Ticket channel {channel.name} has been deleted.")
+    try:
+        # Delete the channel
+        await channel.delete(reason=f"Deleted by {ctx.author}")
+        await ctx.send(f"Successfully deleted the channel `{channel.name}` (ID: `{channel_id}`).")
+    except discord.Forbidden:
+        await ctx.send("I don't have permission to delete this channel. Please check my permissions.")
+    except discord.HTTPException as e:
+        await ctx.send(f"An error occurred while trying to delete the channel: {str(e)}.")
 
 @bot.command(name="close_ticket")
 async def close_ticket(ctx, channel_id: int):
