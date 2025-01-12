@@ -504,16 +504,14 @@ async def report(ctx, *, reason=None):
 
     # Check if the user attached an image
     if not ctx.message.attachments:
-        await ctx.send(
-            "You must provide photo evidence for your report. Please attach an image and try again."
-        )
+        await ctx.send("You must provide photo evidence for your report. Please attach an image and try again.")
         return
 
     # Get the first attachment (assuming it's the photo evidence)
     attachment = ctx.message.attachments[0]
 
-    # Ensure the attachment is an image
-    if not any(attachment.filename.lower().endswith(ext) for ext in ["png", "jpg", "jpeg", "gif"]):
+    # Ensure the attachment is an image by checking its content type
+    if not attachment.content_type or not attachment.content_type.startswith("image/"):
         await ctx.send("The attached file must be an image (png, jpg, jpeg, gif).")
         return
 
