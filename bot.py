@@ -550,6 +550,12 @@ async def report(ctx, *, reason=None):
     await report_channel.send(embed=embed)
     await report_channel.send(f"{ctx.author.mention}, thank you for submitting your report. A staff member will review it shortly.")
 
+    # Delete the original message from the user
+    try:
+        await ctx.message.delete()
+    except discord.errors.Forbidden:
+        await ctx.send("I don't have permission to delete messages. Please check my permissions.")
+
     # Notify the user that the report has been submitted
     await ctx.send(f"Your report has been submitted successfully! Please check {report_channel.mention} for further updates.")
 
