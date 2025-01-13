@@ -8,6 +8,7 @@ from flask import Flask
 import threading
 import googleapiclient.discovery
 import googleapiclient.errors
+import requests
 
 # Load environment variables
 load_dotenv()
