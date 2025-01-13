@@ -268,13 +268,16 @@ async def check_for_new_video():
 
 def get_ai_response(message):
     try:
+        # Debug log
+        print(f"Sending AI request: {message}")
+
         url = "https://api.ai21.com/studio/v1/chat/completions"
         headers = {
             "Authorization": f"Bearer {AI21_API_KEY}",
             "Content-Type": "application/json"
         }
         payload = {
-            "model": "j2-jumbo-instruct",
+            "model": "j2-jumbo-instruct",  # Model being used
             "messages": [
                 {
                     "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is 5hadow_pho3nix. User message: {message}\nResponse:",
@@ -289,7 +292,10 @@ def get_ai_response(message):
         }
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
+
+        # Check response
         data = response.json()
+        print(f"AI response: {data}")  # Debug log
 
         if "choices" in data and data["choices"]:
             fetched_text = data['choices'][0]['message']['content']
@@ -298,16 +304,17 @@ def get_ai_response(message):
 
         return "Sorry, I couldn't generate a response. Try again!"
     except requests.exceptions.RequestException as e:
-        print(f"HTTP Error: {e}")
+        print(f"HTTP Error: {e}")  # Debug log
         return "Sorry, I'm having trouble connecting to my AI brain right now!"
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}")  # Debug log
         return "An unexpected error occurred. Please try again later!"
 
 @bot.command(name="aihelp")
 async def ai_help(ctx, *, message: str):
+    # Restrict command to a specific channel
     if ctx.channel.id != ALLOWED_CHANNEL_ID:
-        await ctx.send("You can only use this command in ai-learning channel!")
+        await ctx.send("You can only use this command in the designated channel!")
         return
 
     async with ctx.typing():
