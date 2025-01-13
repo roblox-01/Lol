@@ -277,7 +277,7 @@ def get_ai_response(message):
             "model": "jamba-instruct-preview",
             "messages": [
                 {
-                    "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is 5hadow_pho3nix. User message: {message}\nResponse:",
+                    "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is <@1053079666459693077>. User message: {message}\nResponse:",
                     "role": "user"
                 }
             ],
