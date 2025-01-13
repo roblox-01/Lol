@@ -13,6 +13,7 @@ import requests
 # Load environment variables
 load_dotenv()
 AI21_API_KEY = os.getenv("AI21_API_KEY")
+ALLOWED_CHANNEL_ID = 123456789012345678
 
 # Flask web server setup
 app = Flask(__name__)
