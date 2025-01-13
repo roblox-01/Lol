@@ -264,6 +264,68 @@ async def check_for_new_video():
                 embed.set_footer(text="Powered by ShadowMods")
                 await channel.send(embed=embed)
 
+def get_ai_response(message):
+    try:
+        url = "https://api.ai21.com/studio/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {AI21_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "model": "jamba-instruct-preview",
+            "messages": [
+                {
+                    "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is 5hadow_pho3nix. User message: {message}\nResponse:",
+                    "role": "user"
+                }
+            ],
+            "n": 1,
+            "max_tokens": 4096,
+            "temperature": 0.7,
+            "top_p": 1,
+            "stop": []
+        }
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        data = response.json()
+
+        if "choices" in data and data["choices"]:
+            fetched_text = data['choices'][0]['message']['content']
+            replaced_text = fetched_text.replace("jamba", "SHADOW AI").replace("AI21", "ShadowMods")
+            return replaced_text
+
+        return "Sorry, I couldn't generate a response. Try again!"
+    except requests.exceptions.RequestException as e:
+        print(f"HTTP Error: {e}")
+        return "Sorry, I'm having trouble connecting to my AI brain right now!"
+    except Exception as e:
+        print(f"Error: {e}")
+        return "An unexpected error occurred. Please try again later!"
+
+
+@bot.command(name="aihelp")
+async def ai_help(ctx, *, question=None):
+    if not question:
+        await ctx.send(
+            "It seems like you forgot to ask your question! Use `!aihelp [your question]` to get started.\n"
+            "For example: `!aihelp How do I use the OpenAI API with Python?`"
+        )
+        return
+
+    await ctx.send("🤖 Thinking... Please wait while I generate a response.")
+
+    ai_response = get_ai_response(question)
+
+    embed = discord.Embed(
+        title="SHADOW AI Assistance",
+        description=f"**Question:** {question}\n\n**Response:** {ai_response}",
+        color=discord.Color.purple()
+    )
+    embed.set_footer(text="Powered by ShadowMods | ShadowMods Community")
+
+    await ctx.send(embed=embed)
+
+
 
 # --------------------------
 # General Commands
