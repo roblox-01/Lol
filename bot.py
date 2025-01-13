@@ -13,6 +13,7 @@ import requests
 # Load environment variables
 load_dotenv()
 AI21_API_KEY = os.getenv("AI21_API_KEY")
+ALLOWED_CHANNEL_ID = 123456789012345678
 
 # Flask web server setup
 app = Flask(__name__)
@@ -273,7 +274,7 @@ def get_ai_response(message):
             "Content-Type": "application/json"
         }
         payload = {
-            "model": "jamba-instruct-preview",
+            "model": "j2-jumbo-instruct",
             "messages": [
                 {
                     "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is 5hadow_pho3nix. User message: {message}\nResponse:",
@@ -303,28 +304,15 @@ def get_ai_response(message):
         print(f"Error: {e}")
         return "An unexpected error occurred. Please try again later!"
 
-
 @bot.command(name="aihelp")
-async def ai_help(ctx, *, question=None):
-    if not question:
-        await ctx.send(
-            "It seems like you forgot to ask your question! Use `!aihelp [your question]` to get started.\n"
-            "For example: `!aihelp How do I use the OpenAI API with Python?`"
-        )
+async def ai_help(ctx, *, message: str):
+    if ctx.channel.id != ALLOWED_CHANNEL_ID:
+        await ctx.send("You can only use this command in the designated channel!")
         return
 
-    await ctx.send("🤖 Thinking... Please wait while I generate a response.")
-
-    ai_response = get_ai_response(question)
-
-    embed = discord.Embed(
-        title="SHADOW AI Assistance",
-        description=f"**Question:** {question}\n\n**Response:** {ai_response}",
-        color=discord.Color.purple()
-    )
-    embed.set_footer(text="Powered by SHADOW AI | ShadowMods Community")
-
-    await ctx.send(embed=embed)
+    async with ctx.typing():
+        response = get_ai_response(message)
+    await ctx.send(response)
 
 # --------------------------
 # General Commands
