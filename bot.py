@@ -10,9 +10,10 @@ import googleapiclient.discovery
 import googleapiclient.errors
 import requests
 
+AI21_API_KEY = "X2UyGrwAMCMhzJoCKYefe0NAlHwLNZwR”
+
 # Load environment variables
 load_dotenv()
-AI21_API_KEY = os.getenv(“AI21_API_KEY”)
 
 # Flask web server setup
 app = Flask(__name__)
