@@ -274,7 +274,7 @@ def get_ai_response(message):
             "Content-Type": "application/json"
         }
         payload = {
-            "model": "j2-jumbo-instruct",
+            "model": "jamba-instruct-preview",
             "messages": [
                 {
                     "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is 5hadow_pho3nix. User message: {message}\nResponse:",
