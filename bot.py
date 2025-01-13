@@ -309,6 +309,33 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
 
+@bot.command(name="sharecheat")
+async def share_cheat(ctx, *, description=None):
+    if not description:
+        await ctx.send("Please provide a description of the cheat or mod you're sharing.")
+        return
+
+    await ctx.send("Please upload the cheat or mod file or provide a link.")
+    
+    def check(m):
+        return m.author == ctx.author and (m.attachments or m.content.startswith("http"))
+
+    try:
+        message = await bot.wait_for("message", check=check, timeout=60)
+        cheat_link = message.attachments[0].url if message.attachments else message.content
+        
+        # Log or share the cheat in a designated channel
+        log_channel = bot.get_channel(YOUR_CHEAT_LOG_CHANNEL_ID)
+        embed = discord.Embed(
+            title="New Cheat Shared!",
+            description=f"**Description:** {description}\n**Link:** {cheat_link}\nShared by {ctx.author.mention}",
+            color=discord.Color.green()
+        )
+        await log_channel.send(embed=embed)
+        await ctx.send("Thank you for sharing! Your cheat has been logged.")
+    except asyncio.TimeoutError:
+        await ctx.send("You didn't provide a file or link in time.")
+
 @bot.command(name="rules")
 async def rules(ctx):
     """
