@@ -322,11 +322,9 @@ async def ai_help(ctx, *, question=None):
         description=f"**Question:** {question}\n\n**Response:** {ai_response}",
         color=discord.Color.purple()
     )
-    embed.set_footer(text="Powered by ShadowMods | ShadowMods Community")
+    embed.set_footer(text="Powered by SHADOW AI | ShadowMods Community")
 
     await ctx.send(embed=embed)
-
-
 
 # --------------------------
 # General Commands
