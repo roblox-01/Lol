@@ -307,7 +307,7 @@ def get_ai_response(message):
 @bot.command(name="aihelp")
 async def ai_help(ctx, *, message: str):
     if ctx.channel.id != ALLOWED_CHANNEL_ID:
-        await ctx.send("You can only use this command in <#1327788436869877801>!")
+        await ctx.send("You can only use this command in ai-learning channel!")
         return
 
     async with ctx.typing():
