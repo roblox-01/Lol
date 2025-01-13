@@ -12,9 +12,8 @@ import requests
 
 # Load environment variables
 load_dotenv()
-
 AI21_API_KEY = os.getenv("AI21_API_KEY")
-ALLOWED_CHANNEL_ID = 1327788436869877801
+ALLOWED_CHANNEL_ID = 123456789012345678
 
 # Flask web server setup
 app = Flask(__name__)
@@ -269,16 +268,13 @@ async def check_for_new_video():
 
 def get_ai_response(message):
     try:
-        # Debug log
-        print(f"Sending AI request: {message}")
-
         url = "https://api.ai21.com/studio/v1/chat/completions"
         headers = {
             "Authorization": f"Bearer {AI21_API_KEY}",
             "Content-Type": "application/json"
         }
         payload = {
-            "model": "j2-jumbo-instruct",  # Model being used
+            "model": "jamba-instruct-preview",
             "messages": [
                 {
                     "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is 5hadow_pho3nix. User message: {message}\nResponse:",
@@ -293,10 +289,7 @@ def get_ai_response(message):
         }
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
-
-        # Check response
         data = response.json()
-        print(f"AI response: {data}")  # Debug log
 
         if "choices" in data and data["choices"]:
             fetched_text = data['choices'][0]['message']['content']
@@ -305,22 +298,34 @@ def get_ai_response(message):
 
         return "Sorry, I couldn't generate a response. Try again!"
     except requests.exceptions.RequestException as e:
-        print(f"HTTP Error: {e}")  # Debug log
+        print(f"HTTP Error: {e}")
         return "Sorry, I'm having trouble connecting to my AI brain right now!"
     except Exception as e:
-        print(f"Error: {e}")  # Debug log
+        print(f"Error: {e}")
         return "An unexpected error occurred. Please try again later!"
 
+
 @bot.command(name="aihelp")
-async def ai_help(ctx, *, message: str):
-    # Restrict command to a specific channel
-    if ctx.channel.id != ALLOWED_CHANNEL_ID:
-        await ctx.send("You can only use this command in the designated channel!")
+async def ai_help(ctx, *, question=None):
+    if not question:
+        await ctx.send(
+            "It seems like you forgot to ask your question! Use `!aihelp [your question]` to get started.\n"
+            "For example: `!aihelp How do I use the OpenAI API with Python?`"
+        )
         return
 
-    async with ctx.typing():
-        response = get_ai_response(message)
-    await ctx.send(response)
+    await ctx.send("🤖 Thinking... Please wait while I generate a response.")
+
+    ai_response = get_ai_response(question)
+
+    embed = discord.Embed(
+        title="SHADOW AI Assistance",
+        description=f"**Question:** {question}\n\n**Response:** {ai_response}",
+        color=discord.Color.purple()
+    )
+    embed.set_footer(text="Powered by SHADOW AI | ShadowMods Community")
+
+    await ctx.send(embed=embed)
 
 # --------------------------
 # General Commands
