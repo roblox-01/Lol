@@ -152,6 +152,7 @@ def get_prefix(bot, message):
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+bot.remove_command("help")
 
 # Bot status rotation
 status_list = [
@@ -159,7 +160,7 @@ status_list = [
     "Use !help for help!",
 ]
 
-@tasks.loop(seconds=30)
+@tasks.loop(seconds=10)
 async def change_status():
     await bot.change_presence(activity=discord.Game(name=random.choice(status_list)))
 
