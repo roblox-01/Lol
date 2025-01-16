@@ -272,7 +272,7 @@ async def check_for_new_videos():
 async def on_ready():
     print(f"Bot connected as {bot.user}")
     change_status.start()  # Start rotating the status
-    check_for_new_video.start()  # Start checking for new videos
+    check_for_new_videos.start()  # Start checking for new videos
 
 def get_ai_response(message):
     try:
