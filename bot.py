@@ -156,7 +156,7 @@ CHANNEL_CONFIG = {
         "server_id": 1326171602987257930,  # Replace with your first Discord server ID
         "discord_channel_id": 1326171604014596160  # Replace with your first Discord channel ID
     },
-    "5U5Qt-c0e6HxZsLD": {  # Replace with your second YouTube channel ID
+    "UCZerH5L79RzgaCmXsqojlMw": {  # Replace with your second YouTube channel ID
         "server_id": 1244686796059836496,  # Replace with your second Discord server ID
         "discord_channel_id": 1244686796647043190  # Replace with your second Discord channel ID
     }
