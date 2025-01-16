@@ -118,7 +118,6 @@ def run_flask():
 threading.Thread(target=run_flask).start()
 
 # YouTube API configuration
-CHANNEL_ID = 'UCQI4EhkeYTcsp0bJ2aNAOCQ'  # Replace with your YouTube channel ID
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 LAST_VIDEO_ID = None
 
@@ -154,12 +153,12 @@ bot.remove_command("help")
 # YouTube channels configuration
 CHANNEL_CONFIG = {
     "UCQI4EhkeYTcsp0bJ2aNAOCQ": {  # Replace with your first YouTube channel ID
-        "server_id": 123456789012345678,  # Replace with your first Discord server ID
-        "discord_channel_id": 987654321098765432  # Replace with your first Discord channel ID
+        "server_id": 1326171602987257930,  # Replace with your first Discord server ID
+        "discord_channel_id": 1326171604014596160  # Replace with your first Discord channel ID
     },
-    "UCabcdefghi123456789": {  # Replace with your second YouTube channel ID
-        "server_id": 234567890123456789,  # Replace with your second Discord server ID
-        "discord_channel_id": 876543210987654321  # Replace with your second Discord channel ID
+    "5U5Qt-c0e6HxZsLD": {  # Replace with your second YouTube channel ID
+        "server_id": 1244686796059836496,  # Replace with your second Discord server ID
+        "discord_channel_id": 1244686796647043190  # Replace with your second Discord channel ID
     }
 }
 
