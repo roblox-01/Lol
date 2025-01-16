@@ -40,7 +40,6 @@ def home():
             color: #ffffff;
         }
 
-        /* Particle Effect */
         body::before {
             content: '';
             position: absolute;
@@ -80,7 +79,6 @@ def home():
             color: #ffffff;
         }
 
-        /* Bot status indicator styling */
         .status-box p span {
             display: inline-block;
             margin-left: 8px;
@@ -91,7 +89,6 @@ def home():
             text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Subtle Animation for particles */
         @keyframes moveParticles {
             0% {
                 background-position: 0 0;
@@ -122,7 +119,7 @@ threading.Thread(target=run_flask).start()
 
 # YouTube API configuration
 CHANNEL_ID = 'UCQI4EhkeYTcsp0bJ2aNAOCQ'  # Replace with your YouTube channel ID
-YOUTUBE_API_KEY = 'AIzaSyB5m2BMejMci824GjeqoBYll_jjncvAk_c'  # Replace with your YouTube API key
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 LAST_VIDEO_ID = None
 
 # Load or initialize prefixes and custom commands
@@ -151,23 +148,21 @@ def get_prefix(bot, message):
     return prefixes.get(str(message.guild.id), "!")  # Default to "!" if no custom prefix
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 bot.remove_command("help")
 
-# Bot status rotation
+# Rotating statuses
 status_list = [
     "Powered by ShadowMods!",
     "Use !help for help!",
+    "Watching your server!",
+    "Developed with ❤️ by ShadowMods",
 ]
 
 @tasks.loop(seconds=10)
 async def change_status():
+    """Rotates the bot's status every 10 seconds."""
     await bot.change_presence(activity=discord.Game(name=random.choice(status_list)))
-
-@bot.event
-async def on_ready():
-    print(f"Bot connected as {bot.user}")
-    change_status.start()
 
 # --------------------------
 # Welcome System
@@ -175,7 +170,6 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    # You can choose a channel where the welcome message will be sent
     channel = discord.utils.get(member.guild.text_channels, name="👋🏼｜welcome")  # Change to your desired channel
     if channel:
         embed = discord.Embed(
@@ -198,10 +192,7 @@ async def on_member_join(member):
 
 @bot.event
 async def on_guild_join(guild):
-    # Attempt to find a specific channel like "welcome" or "general"
     channel = discord.utils.get(guild.text_channels, name="👋🏼｜welcome") or discord.utils.get(guild.text_channels, name="general")
-    
-    # If no specific channel is found, fallback to the first available text channel
     if not channel:
         channel = discord.utils.get(guild.text_channels, permissions__send_messages=True)
     
@@ -231,13 +222,11 @@ def get_latest_video():
     request = youtube.search().list(
         part="snippet",
         channelId=CHANNEL_ID,
-        order="date",  # Order by latest
-        maxResults=1  # Get only the most recent video
+        order="date",
+        maxResults=1
     )
-    
-    response = request.execute()
-    print(response)  # Log the API response for debugging
 
+    response = request.execute()
     latest_video = response['items'][0]
     video_id = latest_video['id']['videoId']
     video_url = f"https://www.youtube.com/watch?v={video_id}"
@@ -245,8 +234,7 @@ def get_latest_video():
 
     return video_title, video_url, video_id
 
-
-@tasks.loop(minutes=1)  # Check every 10 minutes for new video
+@tasks.loop(minutes=1)
 async def check_for_new_video():
     global LAST_VIDEO_ID
 
@@ -257,15 +245,20 @@ async def check_for_new_video():
 
         # Send notification to all guilds
         for guild in bot.guilds:
-            channel = discord.utils.get(guild.text_channels, name="general")  # Replace with the desired channel name
+            channel = discord.utils.get(guild.text_channels, name="🔔｜youtube")  # Replace with your desired channel name
             if channel:
                 embed = discord.Embed(
                     title="New Video Released!",
-                    description=f"Check out the latest video: **{video_title}**\n{video_url}",
+                    description=f"**{video_title}**\n{video_url}",
                     color=discord.Color.red()
                 )
-                embed.set_footer(text="Powered by ShadowMods")
                 await channel.send(embed=embed)
+
+@bot.event
+async def on_ready():
+    print(f"Bot connected as {bot.user}")
+    change_status.start()  # Start rotating the status
+    check_for_new_video.start()  # Start checking for new videos
 
 def get_ai_response(message):
     try:
