@@ -9,7 +9,7 @@ import threading
 import googleapiclient.discovery
 import googleapiclient.errors
 import requests
-
+import asyncio
 # Load environment variables
 load_dotenv()
 AI21_API_KEY = os.getenv("AI21_API_KEY")
@@ -367,6 +367,9 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
 
+import discord
+import asyncio
+
 @bot.command(name="sharecheat")
 async def share_cheat(ctx, *, description=None):
     if not description:
@@ -380,16 +383,24 @@ async def share_cheat(ctx, *, description=None):
 
     try:
         message = await bot.wait_for("message", check=check, timeout=60)
+        
+        # Debugging: Print message content and attachments
+        print(f"Message content: {message.content}")
+        print(f"Attachments: {message.attachments}")
+        
         if message.attachments:
             cheat_link = message.attachments[0].url
+            print(f"File attachment URL: {cheat_link}")
         elif message.content.startswith("http"):
             cheat_link = message.content
+            print(f"Link provided: {cheat_link}")
         else:
             await ctx.send("No valid file or link provided.")
             return
         
         # Log or share the cheat in a designated channel
-        log_channel = bot.get_channel(1329462404870045716)
+        log_channel = bot.get_channel(1329462404870045716)  # Replace with your channel ID
+        
         embed = discord.Embed(
             title="New Cheat Shared!",
             description=f"**Description:** {description}\n**Link:** {cheat_link}\nShared by {ctx.author.mention}",
@@ -397,6 +408,7 @@ async def share_cheat(ctx, *, description=None):
         )
         await log_channel.send(embed=embed)
         await ctx.send("Thank you for sharing! Your cheat has been logged.")
+        
     except asyncio.TimeoutError:
         await ctx.send("You didn't provide a file or link in time.")
 
