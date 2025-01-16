@@ -366,11 +366,8 @@ async def commands_list(ctx):
         color=discord.Color.blue()
     )
     await ctx.send(embed=embed)
-
-import discord
-import asyncio
-
-@bot.command(name="sharecheat")
+    
+@bot.command(name="sharecheats")
 async def share_cheat(ctx, *, description=None):
     if not description:
         await ctx.send("Please provide a description of the cheat or mod you're sharing.")
@@ -389,23 +386,33 @@ async def share_cheat(ctx, *, description=None):
         print(f"Attachments: {message.attachments}")
         
         if message.attachments:
-            cheat_link = message.attachments[0].url
-            print(f"File attachment URL: {cheat_link}")
+            # Get the attachment URL
+            file_url = message.attachments[0].url
+            file_name = message.attachments[0].filename
+            print(f"File attachment URL: {file_url}")
+            print(f"File name: {file_name}")
+            
+            # You can also embed the file name directly in the embed
+            embed = discord.Embed(
+                title="New Cheat Shared!",
+                description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
+                color=discord.Color.green()
+            )
+            embed.add_field(name="File", value=f"[{file_name}]({file_url})", inline=False)
         elif message.content.startswith("http"):
-            cheat_link = message.content
-            print(f"Link provided: {cheat_link}")
+            # If it's a URL, simply display the link
+            file_url = message.content
+            embed = discord.Embed(
+                title="New Cheat Shared!",
+                description=f"**Description:** {description}\n**Link:** {file_url}\nShared by {ctx.author.mention}",
+                color=discord.Color.green()
+            )
         else:
             await ctx.send("No valid file or link provided.")
             return
         
         # Log or share the cheat in a designated channel
         log_channel = bot.get_channel(1329462404870045716)  # Replace with your channel ID
-        
-        embed = discord.Embed(
-            title="New Cheat Shared!",
-            description=f"**Description:** {description}\n**Link:** {cheat_link}\nShared by {ctx.author.mention}",
-            color=discord.Color.green()
-        )
         await log_channel.send(embed=embed)
         await ctx.send("Thank you for sharing! Your cheat has been logged.")
         
