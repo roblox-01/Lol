@@ -367,7 +367,10 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
     
-@bot.command(name="sharecheats")
+import discord
+import asyncio
+
+@bot.command(name="sharecheat")
 async def share_cheat(ctx, *, description=None):
     if not description:
         await ctx.send("Please provide a description of the cheat or mod you're sharing.")
@@ -381,24 +384,29 @@ async def share_cheat(ctx, *, description=None):
     try:
         message = await bot.wait_for("message", check=check, timeout=60)
         
-        # Debugging: Print message content and attachments
-        print(f"Message content: {message.content}")
-        print(f"Attachments: {message.attachments}")
-        
         if message.attachments:
-            # Get the attachment URL
+            # Get the attachment URL and filename
             file_url = message.attachments[0].url
             file_name = message.attachments[0].filename
-            print(f"File attachment URL: {file_url}")
-            print(f"File name: {file_name}")
             
-            # You can also embed the file name directly in the embed
-            embed = discord.Embed(
-                title="New Cheat Shared!",
-                description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
-                color=discord.Color.green()
-            )
-            embed.add_field(name="File", value=f"[{file_name}]({file_url})", inline=False)
+            # Check if the file is an image by looking at its extension
+            image_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp']
+            if any(file_name.lower().endswith(ext) for ext in image_extensions):
+                embed = discord.Embed(
+                    title="New Cheat Shared!",
+                    description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
+                    color=discord.Color.green()
+                )
+                embed.set_image(url=file_url)  # Show the image directly in the embed
+            else:
+                # If it's not an image, we just show the file name and a link
+                embed = discord.Embed(
+                    title="New Cheat Shared!",
+                    description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
+                    color=discord.Color.green()
+                )
+                embed.add_field(name="File", value=f"[{file_name}]({file_url})", inline=False)
+        
         elif message.content.startswith("http"):
             # If it's a URL, simply display the link
             file_url = message.content
@@ -407,6 +415,7 @@ async def share_cheat(ctx, *, description=None):
                 description=f"**Description:** {description}\n**Link:** {file_url}\nShared by {ctx.author.mention}",
                 color=discord.Color.green()
             )
+
         else:
             await ctx.send("No valid file or link provided.")
             return
