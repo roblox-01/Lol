@@ -247,7 +247,7 @@ def get_latest_video(channel_id):
     return video_title, video_url, video_id
 
 # Check for new videos task
-@tasks.loop(minutes=1)
+@tasks.loop(seconds=20)
 async def check_for_new_videos():
     for channel_id, config in CHANNEL_CONFIG.items():
         try:
