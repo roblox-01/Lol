@@ -151,12 +151,26 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 bot.remove_command("help")
 
-# Rotating statuses
+# YouTube channels configuration
+CHANNEL_CONFIG = {
+    "UCQI4EhkeYTcsp0bJ2aNAOCQ": {  # Replace with your first YouTube channel ID
+        "server_id": 123456789012345678,  # Replace with your first Discord server ID
+        "discord_channel_id": 987654321098765432  # Replace with your first Discord channel ID
+    },
+    "UCabcdefghi123456789": {  # Replace with your second YouTube channel ID
+        "server_id": 234567890123456789,  # Replace with your second Discord server ID
+        "discord_channel_id": 876543210987654321  # Replace with your second Discord channel ID
+    }
+}
+
+# Store last video ID for each channel
+LAST_VIDEO_IDS = {channel_id: None for channel_id in CHANNEL_CONFIG.keys()}
+
+# Status rotation
 status_list = [
     "Powered by ShadowMods!",
-    "Use !help for help!",
-    "Watching your server!",
-    "Developed with ❤️ by ShadowMods",
+    "Use !help for commands!",
+    "Watching for new uploads!"
 ]
 
 @tasks.loop(seconds=10)
@@ -216,46 +230,44 @@ async def on_guild_join(guild):
 # YouTube Video Notification System
 # --------------------------
 
-def get_latest_video():
-    youtube = googleapiclient.discovery.build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
+def get_latest_video(channel_id):
+    youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
 
     request = youtube.search().list(
         part="snippet",
-        channelId=CHANNEL_ID,
+        channelId=channel_id,
         order="date",
         maxResults=1
     )
-
     response = request.execute()
-    latest_video = response['items'][0]
-    video_id = latest_video['id']['videoId']
+    latest_video = response["items"][0]
+    video_id = latest_video["id"]["videoId"]
     video_url = f"https://www.youtube.com/watch?v={video_id}"
-    video_title = latest_video['snippet']['title']
+    video_title = latest_video["snippet"]["title"]
 
     return video_title, video_url, video_id
 
+# Check for new videos task
 @tasks.loop(minutes=1)
-async def check_for_new_video():
-    global LAST_VIDEO_ID
+async def check_for_new_videos():
+    for channel_id, config in CHANNEL_CONFIG.items():
+        try:
+            video_title, video_url, video_id = get_latest_video(channel_id)
 
-    # Fetch video details
-    video_title, video_url, video_id, video_description, thumbnail_url = get_latest_video()
+            if video_id != LAST_VIDEO_IDS[channel_id]:
+                LAST_VIDEO_IDS[channel_id] = video_id
 
-    # Check if it's a new video
-    if video_id != LAST_VIDEO_ID:
-        LAST_VIDEO_ID = video_id
-
-        # Notify all guilds
-        for guild in bot.guilds:
-            channel = discord.utils.get(guild.text_channels, name="general")  # Replace with desired channel name
-            if channel:
-                message = (
-                    f"🎥 **A new video has been uploaded!**\n\n"
-                    f"**Title:** {video_title}\n"
-                    f"**Description:** {video_description[:200]}...\n"
-                    f"**Watch here:** {video_url}"
-                )
-                await channel.send(message)
+                guild = discord.utils.get(bot.guilds, id=config["server_id"])
+                if guild:
+                    discord_channel = discord.utils.get(guild.text_channels, id=config["discord_channel_id"])
+                    if discord_channel:
+                        await discord_channel.send(
+                            f"🎥 **New Video Uploaded!**\n\n"
+                            f"**Title:** {video_title}\n"
+                            f"**Watch it here:** {video_url}"
+                        )
+        except Exception as e:
+            print(f"Error checking videos for channel {channel_id}: {e}")
 
 @bot.event
 async def on_ready():
