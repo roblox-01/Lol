@@ -238,21 +238,24 @@ def get_latest_video():
 async def check_for_new_video():
     global LAST_VIDEO_ID
 
-    video_title, video_url, video_id = get_latest_video()
+    # Fetch video details
+    video_title, video_url, video_id, video_description, thumbnail_url = get_latest_video()
 
+    # Check if it's a new video
     if video_id != LAST_VIDEO_ID:
         LAST_VIDEO_ID = video_id
 
-        # Send notification to all guilds
+        # Notify all guilds
         for guild in bot.guilds:
-            channel = discord.utils.get(guild.text_channels, name="🔔｜youtube")  # Replace with your desired channel name
+            channel = discord.utils.get(guild.text_channels, name="general")  # Replace with desired channel name
             if channel:
-                embed = discord.Embed(
-                    title="New Video Released!",
-                    description=f"**{video_title}**\n{video_url}",
-                    color=discord.Color.red()
+                message = (
+                    f"🎥 **A new video has been uploaded!**\n\n"
+                    f"**Title:** {video_title}\n"
+                    f"**Description:** {video_description[:200]}...\n"
+                    f"**Watch here:** {video_url}"
                 )
-                await channel.send(embed=embed)
+                await channel.send(message)
 
 @bot.event
 async def on_ready():
