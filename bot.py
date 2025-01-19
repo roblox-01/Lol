@@ -10,6 +10,8 @@ import googleapiclient.discovery
 import googleapiclient.errors
 import requests
 import asyncio
+import datetime
+
 # Load environment variables
 load_dotenv()
 AI21_API_KEY = os.getenv("AI21_API_KEY")
@@ -427,6 +429,18 @@ async def share_cheat(ctx, *, description=None):
         
     except asyncio.TimeoutError:
         await ctx.send("You didn't provide a file or link in time.")
+
+@bot.command(name="uptime")
+async def uptime(ctx):
+    """Show the bot's uptime."""
+    delta = datetime.datetime.utcnow() - start_time
+    days = delta.days
+    hours = delta.seconds // 3600
+    minutes = (delta.seconds // 60) % 60
+    seconds = delta.seconds % 60
+
+    uptime_str = f"Uptime: {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds."
+    await ctx.send(uptime_str)
 
 @bot.command(name="rules")
 async def rules(ctx):
