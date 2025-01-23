@@ -150,6 +150,7 @@ def get_prefix(bot, message):
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
+start_time = datetime.datetime.utcnow()
 bot.remove_command("help")
 
 # YouTube channels configuration
