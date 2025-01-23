@@ -370,9 +370,6 @@ async def commands_list(ctx):
     )
     await ctx.send(embed=embed)
     
-import discord
-import asyncio
-
 @bot.command(name="sharecheat")
 async def share_cheat(ctx, *, description=None):
     if not description:
@@ -385,8 +382,9 @@ async def share_cheat(ctx, *, description=None):
         return m.author == ctx.author and (m.attachments or m.content.startswith("http"))
 
     try:
+        # Wait for the user to send the file or link
         message = await bot.wait_for("message", check=check, timeout=60)
-        
+
         if message.attachments:
             # Get the attachment URL and filename
             file_url = message.attachments[0].url
