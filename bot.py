@@ -433,15 +433,20 @@ async def share_cheat(ctx, *, description=None):
 
 @bot.command(name="uptime")
 async def uptime(ctx):
-    """Show the bot's uptime."""
+    """Show the bot's uptime in Discord's timestamp format."""
     delta = datetime.datetime.utcnow() - start_time
-    days = delta.days
-    hours = delta.seconds // 3600
-    minutes = (delta.seconds // 60) % 60
-    seconds = delta.seconds % 60
+    # Convert the start_time to a Unix timestamp
+    start_timestamp = int(start_time.timestamp())
 
-    uptime_str = f"Uptime: {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds."
-    await ctx.send(uptime_str)
+    # Format the uptime as Discord's timestamp
+    uptime_str = f"Uptime: <t:{start_timestamp}:R>"  # "R" for relative time (like "2 hours ago")
+
+    # Create the embed
+    embed = discord.Embed(title="Bot Uptime", description=uptime_str, color=discord.Color.green())
+    embed.set_footer(text=f"Uptime calculated at {datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC")
+    
+    # Send the embed
+    await ctx.send(embed=embed)
 
 @bot.command(name="rules")
 async def rules(ctx):
