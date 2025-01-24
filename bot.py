@@ -264,7 +264,7 @@ async def check_for_new_videos():
                     discord_channel = discord.utils.get(guild.text_channels, id=config["discord_channel_id"])
                     if discord_channel:
                         await discord_channel.send(
-                            f"@everyone\n🎥 **New Video Uploaded!**\n\n"
+                            f"@YouTube Ping\n🎥 **New Video Uploaded!**\n\n"
                             f"**Title:** {video_title}\n"
                             f"**Watch it here:** {video_url}"
                         )
