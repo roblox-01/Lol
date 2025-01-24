@@ -561,6 +561,23 @@ async def faq(ctx):
 
     await ctx.send(embed=faq_embed)
 
+@bot.command()
+async def cheats(ctx):
+    embed = discord.Embed(
+        title="ShadowMods",
+        description="🚨 Attention, Cheaters! Want Access To All Our Free Cheats? 🚨\n"
+                    "You’re in luck! Here’s what you need to do:\n\n"
+                    "Head over to our website: [Click here to download](https://shadowmods-nobf.onrender.com/cheats)\n"
+                    "Grab the cheats and follow the instructions.\n\n"
+                    "That’s it! You’re officially a hacker! 😎\n\n"
+                    "No secret handshake required, but do make sure you follow the instructions carefully, so you don’t break the internet. 😅\n\n"
+                    "Thanks For Using ShadowMods! Have A Nice Day!",
+        color=discord.Color.blue()
+    )
+
+    # Send the embed
+    await ctx.send(embed=embed)
+
 @bot.command(name="apply")
 async def apply(ctx):
     # Define the category ID where the new channel will be placed
