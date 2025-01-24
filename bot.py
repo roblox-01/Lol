@@ -429,22 +429,33 @@ async def share_cheat(ctx, *, description=None):
     except asyncio.TimeoutError:
         await ctx.send("You didn't provide a file or link in time.")
 
+import asyncio
+
 @bot.command(name="uptime")
 async def uptime(ctx):
-    """Show the bot's uptime in Discord's timestamp format."""
-    delta = datetime.datetime.utcnow() - start_time
-    # Convert the start_time to a Unix timestamp
-    start_timestamp = int(start_time.timestamp())
+    """Show the bot's uptime and update it every second."""
+    message = await ctx.send("Calculating uptime...")
 
-    # Format the uptime as Discord's timestamp
-    uptime_str = f"Uptime: <t:{start_timestamp}:R>"  # "R" for relative time (like "2 hours ago")
+    while True:
+        delta = datetime.datetime.utcnow() - start_time
 
-    # Create the embed
-    embed = discord.Embed(title="Bot Uptime", description=uptime_str, color=discord.Color.green())
-    embed.set_footer(text=f"Uptime calculated at {datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC")
-    
-    # Send the embed
-    await ctx.send(embed=embed)
+        # Extract days, hours, minutes, and seconds from the timedelta
+        days = delta.days
+        hours, remainder = divmod(delta.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        # Format the uptime string
+        uptime_str = f"Uptime: {days}d {hours}h {minutes}m {seconds}s"
+
+        # Create the embed
+        embed = discord.Embed(title="Bot Uptime", description=uptime_str, color=discord.Color.green())
+        embed.set_footer(text=f"Last updated: {datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC")
+
+        # Edit the message with the updated embed
+        await message.edit(embed=embed)
+
+        # Wait for 1 second before updating again
+        await asyncio.sleep(1)
 
 @bot.command(name="rules")
 async def rules(ctx):
