@@ -148,11 +148,9 @@ def save_custom_commands():
 def get_prefix(bot, message):
     return prefixes.get(str(message.guild.id), "!")  # Default to "!" if no custom prefix
 
+# Create the bot object and disable the built-in help command
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=get_prefix, intents=intents)
-
-# Disable the default help command by setting help_command to None in bot initialization
-bot.help_command = None
 
 start_time = datetime.datetime.utcnow()
 
@@ -351,8 +349,8 @@ async def ai_help(ctx, *, message: str):
 # General Commands
 # --------------------------
 
-@bot.command(name="help")
-async def commands_list(ctx):
+@bot.remove_command("help")
+async def help_command(ctx):
     embed = discord.Embed(
         title="📜 Dark Phoenix Commands",
         description="Here is a list of available commands categorized for easy access.",
