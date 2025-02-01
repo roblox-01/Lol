@@ -410,6 +410,103 @@ async def commands_list(ctx):
     embed.set_footer(text="Dark Phoenix Bot • Powered by ShadowMods")
 
     await ctx.send(embed=embed)
+
+@bot.command(name="botinfo")
+async def bot_info(ctx):
+    embed = discord.Embed(
+        title="🤖 Bot Information",
+        description=f"Details about {bot.user.name}",
+        color=discord.Color.blue()
+    )
+    embed.set_thumbnail(url=bot.user.avatar.url if bot.user.avatar else None)
+    embed.add_field(name="Developer", value="ShadowMods", inline=True)
+    embed.add_field(name="Servers", value=f"{len(bot.guilds)}", inline=True)
+    embed.add_field(name="Users", value=f"{sum(g.member_count for g in bot.guilds)}", inline=True)
+    embed.add_field(name="Uptime", value=f"{str(datetime.datetime.utcnow() - start_time).split('.')[0]}", inline=True)
+    embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+
+    await ctx.send(embed=embed)
+
+@bot.command(name="members")
+async def members(ctx):
+    total_members = ctx.guild.member_count
+    embed = discord.Embed(
+        title="👥 Server Members",
+        description=f"This server has **{total_members}** members.",
+        color=discord.Color.green()
+    )
+    await ctx.send(embed=embed)
+
+@bot.command(name="snipe")
+async def snipe(ctx):
+    if ctx.channel.id in sniped_messages:
+        author, content, timestamp = sniped_messages[ctx.channel.id]
+        embed = discord.Embed(
+            title="💬 Sniped Message",
+            description=content,
+            color=discord.Color.orange()
+        )
+        embed.set_footer(text=f"Deleted by {author} • {timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("There's nothing to snipe!")
+
+@bot.command(name="editsnipe")
+async def editsnipe(ctx):
+    if ctx.channel.id in edited_messages:
+        author, before, after, timestamp = edited_messages[ctx.channel.id]
+        embed = discord.Embed(
+            title="✏️ Edited Message",
+            description=f"**Before:** {before}\n**After:** {after}",
+            color=discord.Color.orange()
+        )
+        embed.set_footer(text=f"Edited by {author} • {timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("There's nothing to editsnipe!")
+
+@bot.command(name="log")
+@commands.has_permissions(administrator=True)
+async def set_log_channel(ctx, channel: discord.TextChannel):
+    log_channels[ctx.guild.id] = channel.id
+    await ctx.send(f"✅ Logging channel set to {channel.mention}")
+
+@bot.event
+async def on_member_update(before, after):
+    if before.guild.id in log_channels:
+        log_channel = bot.get_channel(log_channels[before.guild.id])
+        if log_channel:
+            embed = discord.Embed(
+                title="🔄 Member Updated",
+                description=f"**User:** {before.mention}",
+                color=discord.Color.blue()
+            )
+            if before.nick != after.nick:
+                embed.add_field(name="Nickname Changed", value=f"{before.nick} → {after.nick}", inline=False)
+            if before.roles != after.roles:
+                before_roles = ", ".join([r.mention for r in before.roles])
+                after_roles = ", ".join([r.mention for r in after.roles])
+                embed.add_field(name="Roles Changed", value=f"**Before:** {before_roles}\n**After:** {after_roles}", inline=False)
+            embed.set_footer(text=f"User ID: {before.id}")
+            await log_channel.send(embed=embed)
+
+@bot.command(name="modlog")
+async def mod_log(ctx, user: discord.Member):
+    if user.id in moderation_logs:
+        logs = moderation_logs[user.id]
+        embed = discord.Embed(
+            title=f"📜 Moderation Log for {user}",
+            description="\n".join(logs),
+            color=discord.Color.red()
+        )
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send(f"No moderation actions found for {user.mention}.")
+
+@bot.command(name="afk")
+async def afk(ctx, *, reason="AFK"):
+    afk_users[ctx.author.id] = reason
+    await ctx.send(f"✅ {ctx.author.mention} is now AFK: {reason}")
     
 @bot.command(name="sharecheat")
 async def share_cheat(ctx, *, description=None):
