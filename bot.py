@@ -349,7 +349,7 @@ async def ai_help(ctx, *, message: str):
 # General Commands
 # --------------------------
 
-@bot.remove_command("help")
+@bot.command(name="help")
 async def help_command(ctx):
     embed = discord.Embed(
         title="📜 Dark Phoenix Commands",
