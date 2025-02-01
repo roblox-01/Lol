@@ -155,13 +155,13 @@ bot.remove_command("help")
 
 # YouTube channels configuration
 CHANNEL_CONFIG = {
-    "UCQI4EhkeYTcsp0bJ2aNAOCQ": {  # Replace with your first YouTube channel ID
-        "server_id": 1326171602987257930,  # Replace with your first Discord server ID
-        "discord_channel_id": 1326171604014596160  # Replace with your first Discord channel ID
+    "UCQI4EhkeYTcsp0bJ2aNAOCQ": {  # YouTube Channel 1
+        "server_id": 1326171602987257930,  # Discord Server 1
+        "discord_channel_id": 1326171604014596160  # Text channel in Server 1
     },
-    "UCZerH5L79RzgaCmXsqojlMw": {  # Replace with your second YouTube channel ID
-        "server_id": 1244686796059836496,  # Replace with your second Discord server ID
-        "discord_channel_id": 1244686796647043190  # Replace with your second Discord channel ID
+    "UCZerH5L79RzgaCmXsqojlMw": {  # YouTube Channel 2
+        "server_id": 1244686796059836496,  # Discord Server 2
+        "discord_channel_id": 1244686796647043190  # Text channel in Server 2
     }
 }
 
@@ -263,11 +263,20 @@ async def check_for_new_videos():
                 if guild:
                     discord_channel = discord.utils.get(guild.text_channels, id=config["discord_channel_id"])
                     if discord_channel:
-                        await discord_channel.send(
-                            f"<@&1332361705208156160><@&1332364240782364734>\n🎥 **New Video Uploaded!**\n\n"
-                            f"**Title:** {video_title}\n"
-                            f"**Watch it here:** {video_url}"
-                        )
+                        if channel_id == "UCQI4EhkeYTcsp0bJ2aNAOCQ":  # First YouTube Channel -> First Discord Server
+                            message = (
+                                f"<@&1332361705208156160>\n🎥 **New Video from Channel 1!**\n\n"
+                                f"**Title:** {video_title}\n"
+                                f"**Watch it here:** {video_url}"
+                            )
+                        elif channel_id == "UCZerH5L79RzgaCmXsqojlMw":  # Second YouTube Channel -> Second Discord Server
+                            message = (
+                                f"<@&1332364240782364734>\n🔥 **New Video from Channel 2!**\n\n"
+                                f"**Title:** {video_title}\n"
+                                f"**Watch it here:** {video_url}"
+                            )
+
+                        await discord_channel.send(message)
         except Exception as e:
             print(f"Error checking videos for channel {channel_id}: {e}")
 
