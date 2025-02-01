@@ -355,7 +355,7 @@ async def commands_list(ctx):
         description="Here is a list of available commands categorized for easy access.",
         color=discord.Color.blue()
     )
-    
+
     embed.add_field(
         name="🛠 General Commands",
         value=(
@@ -364,7 +364,9 @@ async def commands_list(ctx):
             "`!avatar [user]` - Get a user's avatar.\n"
             "`!invite` - Get the server invite link.\n"
             "`!serverinfo` - View server details.\n"
-            "`!userinfo [user]` - View user info."
+            "`!userinfo [user]` - View user info.\n"
+            "`!botinfo` - Get bot statistics.\n"
+            "`!members` - Show the total number of members."
         ),
         inline=False
     )
@@ -393,7 +395,8 @@ async def commands_list(ctx):
             "`!deafen [member]` - Deafen a user.\n"
             "`!undeafen [member]` - Undeafen a user.\n"
             "`!move [member] [channel]` - Move a user to a voice channel.\n"
-            "`!purge [number]` - Bulk delete messages."
+            "`!purge [number]` - Bulk delete messages.\n"
+            "`!modlog` - View the moderation logs."
         ),
         inline=False
     )
@@ -413,6 +416,25 @@ async def commands_list(ctx):
             "`!create_ticket` - Open a support ticket.\n"
             "`!close_ticket` - Close an open ticket.\n"
             "`!delete_ticket [channel_id]` - Delete a ticket by ID."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="📜 Logging Commands",
+        value=(
+            "`!log` - Show server logs.\n"
+            "`!snipe` - Retrieve the last deleted message.\n"
+            "`!editsnipe` - Retrieve the last edited message."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="💤 AFK System",
+        value=(
+            "`!afk [reason]` - Set yourself as AFK.\n"
+            "Mentions will notify users of your AFK status."
         ),
         inline=False
     )
