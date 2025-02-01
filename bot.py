@@ -151,8 +151,8 @@ def get_prefix(bot, message):
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 
-# Remove the built-in help command
-bot.remove_command("help")
+# Disable the default help command by setting help_command to None in bot initialization
+bot.help_command = None
 
 start_time = datetime.datetime.utcnow()
 
