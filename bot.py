@@ -153,6 +153,16 @@ bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None
 start_time = datetime.datetime.utcnow()
 bot.remove_command("help")
 
+# --------------------------
+# Data Storage
+# --------------------------
+
+sniped_messages = {}
+edited_messages = {}
+log_channels = {}
+moderation_logs = {}
+afk_users = {}
+
 # YouTube channels configuration
 CHANNEL_CONFIG = {
     "UCQI4EhkeYTcsp0bJ2aNAOCQ": {  # YouTube Channel 1
