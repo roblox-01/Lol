@@ -265,7 +265,7 @@ async def check_for_new_videos():
                     if discord_channel:
                         if channel_id == "UCQI4EhkeYTcsp0bJ2aNAOCQ":  # First YouTube Channel -> First Discord Server
                             message = (
-                                f"@&1332364240782364734>\n🎥 **New Video from ShadowLyrics!**\n\n"
+                                f"<@&1332364240782364734>\n🎥 **New Video from ShadowLyrics!**\n\n"
                                 f"**Title:** {video_title}\n"
                                 f"**Watch it here:** {video_url}"
                             )
