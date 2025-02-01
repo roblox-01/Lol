@@ -341,42 +341,74 @@ async def ai_help(ctx, *, message: str):
 @bot.command(name="help")
 async def commands_list(ctx):
     embed = discord.Embed(
-        title="Available Commands",
-        description=(
-            "**General Commands:**\n"
-            "`!help` – List of all commands.\n"
-            "`!ping` – Check bot latency.\n"
-            "`!avatar [user]` – Get a user's avatar.\n"
-            "`!invite` – Get the invite link for the current server.\n"
-            "`!serverinfo` – Get server information.\n"
-            "`!userinfo [user]` – Get user information.\n"
-            "**Fun Commands:**\n"
-            "`!joke` – Get a random joke.\n"
-            "`!roll [sides]` – Roll a dice.\n"
-            "`!coinflip` – Flip a coin.\n"
-            "**Moderation Commands:**\n"
-            "`!kick [member] [reason]` – Kick a member.\n"
-            "`!ban [member] [reason]` – Ban a member.\n"
-            "`!unban [user_id]` – Unban a user.\n"
-            "`!lock [channel]` – Lock a channel.\n"
-            "`!unlock [channel]` – Unlock a channel.\n"
-            "`!slowmode [seconds] [channel]` – Set slowmode.\n"
-            "`!role [add/remove] [member] [role]` – Manage roles.\n"
-            "`!nick [member] [nickname]` – Change a nickname.\n"
-            "`!deafen [member]` – Deafen a user.\n"
-            "`!undeafen [member]` – Undeafen a user.\n"
-            "`!move [member] [channel]` – Move a user to a voice channel.\n"
-            "`!purge [number]` – Delete the last N messages.\n"
-            "**Application Commands:**\n"
-            "`!apply` – Start the application process for becoming a moderator.\n"
-            "`!applyhelp` – View the questions for the application process.\n"
-            "**Ticket Commands:**\n"
-            "`!create_ticket` – Create a help ticket.\n"
-            "`!close_ticket` – Close a help ticket.\n"
-            "`!delete_ticket [channel_id]` – Delete a ticket with a given channel ID.\n"
-        ),
+        title="📜 Dark Phoenix Commands",
+        description="Here is a list of available commands categorized for easy access.",
         color=discord.Color.blue()
     )
+    
+    embed.add_field(
+        name="🛠 General Commands",
+        value=(
+            "`!help` - Show this command list.\n"
+            "`!ping` - Check bot latency.\n"
+            "`!avatar [user]` - Get a user's avatar.\n"
+            "`!invite` - Get the server invite link.\n"
+            "`!serverinfo` - View server details.\n"
+            "`!userinfo [user]` - View user info."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🎉 Fun Commands",
+        value=(
+            "`!joke` - Get a random joke.\n"
+            "`!roll [sides]` - Roll a dice.\n"
+            "`!coinflip` - Flip a coin."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🛡️ Moderation Commands",
+        value=(
+            "`!kick [member] [reason]` - Kick a user.\n"
+            "`!ban [member] [reason]` - Ban a user.\n"
+            "`!unban [user_id]` - Unban a user.\n"
+            "`!lock [channel]` - Lock a channel.\n"
+            "`!unlock [channel]` - Unlock a channel.\n"
+            "`!slowmode [seconds] [channel]` - Set slowmode.\n"
+            "`!role [add/remove] [member] [role]` - Manage roles.\n"
+            "`!nick [member] [nickname]` - Change a nickname.\n"
+            "`!deafen [member]` - Deafen a user.\n"
+            "`!undeafen [member]` - Undeafen a user.\n"
+            "`!move [member] [channel]` - Move a user to a voice channel.\n"
+            "`!purge [number]` - Bulk delete messages."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="📋 Application Commands",
+        value=(
+            "`!apply` - Apply for moderator role.\n"
+            "`!applyhelp` - View application questions."
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="🎟️ Ticket Commands",
+        value=(
+            "`!create_ticket` - Open a support ticket.\n"
+            "`!close_ticket` - Close an open ticket.\n"
+            "`!delete_ticket [channel_id]` - Delete a ticket by ID."
+        ),
+        inline=False
+    )
+
+    embed.set_footer(text="Dark Phoenix Bot • Powered by ShadowMods")
+
     await ctx.send(embed=embed)
     
 @bot.command(name="sharecheat")
