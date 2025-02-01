@@ -149,9 +149,12 @@ def get_prefix(bot, message):
     return prefixes.get(str(message.guild.id), "!")  # Default to "!" if no custom prefix
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
-start_time = datetime.datetime.utcnow()
+bot = commands.Bot(command_prefix=get_prefix, intents=intents)
+
+# Remove the built-in help command
 bot.remove_command("help")
+
+start_time = datetime.datetime.utcnow()
 
 # --------------------------
 # Data Storage
