@@ -11,6 +11,8 @@ import googleapiclient.errors
 import requests
 import asyncio
 import datetime
+from io import BytesIO
+from PIL import Image, ImageOps, ImageEnhance
 
 # Load environment variables
 load_dotenv()
@@ -640,6 +642,70 @@ async def uptime(ctx):
 
         # Wait for 1 second before updating again
         await asyncio.sleep(1)
+
+# !phantommsg <message>
+@bot.command()
+async def phantommsg(ctx, *, message: str):
+    msg = await ctx.send(message)
+    await asyncio.sleep(10)
+    await msg.delete()
+
+
+# !modroulette
+@bot.command()
+async def modroulette(ctx):
+    members = [member for member in ctx.guild.members if not member.bot]
+    if not members:
+        await ctx.send("No human members found.")
+        return
+    
+    chosen = random.choice(members)
+    await ctx.send(f"🎰 Spinning the wheel...")  
+    await asyncio.sleep(2)
+    await ctx.send(f"Congratulations {chosen.mention}, you are the new mod! (for 10 seconds...)")
+    await asyncio.sleep(10)
+    await ctx.send(f"Oops, time’s up. Hope you enjoyed the power trip. 😈")
+
+
+# !matrix
+@bot.command()
+async def matrix(ctx):
+    matrix_effect = [
+        "010110100011011  ⌁ LOADING ⌁  011101001011110",
+        "110011001101010  ⌁ DECODING ⌁  001101011011011",
+        "🔥 Welcome to the simulation.",
+    ]
+    for line in matrix_effect:
+        await ctx.send(line)
+        await asyncio.sleep(2)
+
+
+# !distort <@user>
+@bot.command()
+async def distort(ctx, user: discord.Member = None):
+    if user is None:
+        user = ctx.author
+    
+    avatar_url = user.avatar.url
+    async with ctx.bot.session.get(avatar_url) as response:
+        if response.status != 200:
+            return await ctx.send("Failed to fetch avatar.")
+        
+        img_data = await response.read()
+    
+    with Image.open(BytesIO(img_data)) as img:
+        img = img.convert("RGB")
+        img = img.resize((256, 256))
+        img = ImageOps.posterize(img, 2)
+        enhancer = ImageEnhance.Contrast(img)
+        img = enhancer.enhance(2)
+        
+        output = BytesIO()
+        img.save(output, format="PNG")
+        output.seek(0)
+    
+    file = discord.File(output, filename="distorted.png")
+    await ctx.send(f"Here's your new cursed look, {user.mention}!", file=file)
 
 @bot.command(name="rules")
 async def rules(ctx):
