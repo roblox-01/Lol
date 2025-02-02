@@ -444,6 +444,19 @@ async def help_command(ctx):
 
     await ctx.send(embed=embed)
 
+@bot.command()
+async def embed(ctx, *, message: str):
+    embed = discord.Embed(
+        description=message,
+        color=discord.Color.blue()
+    )
+
+    # Send the embed with the provided message
+    await ctx.send(embed=embed)
+
+    # Delete the user's message
+    await ctx.message.delete()
+
 @bot.command(name="botinfo")
 async def bot_info(ctx):
     embed = discord.Embed(
