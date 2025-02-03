@@ -447,6 +447,17 @@ async def help_command(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
+async def support(ctx):
+    embed = discord.Embed(
+        title="Support Ticket Instructions",
+        description="Need help? You can create a support ticket by using the command below:",
+        color=discord.Color.red()
+    )
+    embed.add_field(name="🎟 Create a Ticket", value="`!create_ticket` - Opens a new support ticket", inline=False)
+    
+    await ctx.send(embed=embed)
+
+@bot.command()
 async def embed(ctx, *, message: str):
     embed = discord.Embed(
         description=message,
