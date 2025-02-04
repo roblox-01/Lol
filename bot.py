@@ -839,7 +839,7 @@ async def cheats(ctx):
         title="ShadowMods",
         description="🚨 Attention, Cheaters! Want Access To All Our Free Cheats? 🚨\n"
                     "You’re in luck! Here’s what you need to do:\n\n"
-                    "Head over to our website: [Click here to download](https://shadowmods.onrender.com/cheats)\n"
+                    "Head over to our website: [Click here to download](https://shadowmods.onrender.com/services/cheats)\n"
                     "Grab the cheats and follow the instructions.\n\n"
                     "That’s it! You’re officially a hacker! 😎\n\n"
                     "No secret handshake required, but do make sure you follow the instructions carefully, so you don’t break the internet. 😅\n\n"
