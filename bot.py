@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return ("""
+    return """
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,7 +114,7 @@ def home():
     </div>
 </body>
 </html>
-    """)
+    """
 
 def run_flask():
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
@@ -443,28 +443,6 @@ async def help_command(ctx):
     )
 
     embed.set_footer(text="Dark Phoenix Bot • Powered by ShadowMods")
-
-    await ctx.send(embed=embed)
-
-@bot.command(name="aboutserver")
-async def aboutserver(ctx):
-    embed = discord.Embed(
-        title="⚡ Welcome to ShadowMods!",
-        description=(
-            "🚀 **ShadowMods** is the ultimate hub for coders, hackers, and modders! \n"
-            "💻 Discuss **coding**, 🔧 explore **modding**, and 🤖 build **powerful bots**.\n"
-            "🔗 Connect with like-minded devs and push the limits of creativity!\n\n"
-            "**🔥 What We Offer:**\n"
-            "🛠️ Custom tools & scripts\n"
-            "🎮 Game modding resources\n"
-            "📜 Exclusive tutorials & guides\n"
-            "💬 Active and friendly community\n\n"
-            "Join us and level up your skills! 🚨"
-        ),
-        color=discord.Color.red()
-    )
-    embed.set_thumbnail(url=ctx.guild.icon.url if ctx.guild.icon else None)
-    embed.set_footer(text=f"Server ID: {ctx.guild.id} • Stay sharp, stay ahead ⚡")
 
     await ctx.send(embed=embed)
 
@@ -861,7 +839,7 @@ async def cheats(ctx):
         title="ShadowMods",
         description="🚨 Attention, Cheaters! Want Access To All Our Free Cheats? 🚨\n"
                     "You’re in luck! Here’s what you need to do:\n\n"
-                    "Head over to our website: [Click here to download](https://shadowmods.onrender.com/services/cheats)\n"
+                    "Head over to our website: [Click here to download](https://shadowmods.onrender.com/cheats)\n"
                     "Grab the cheats and follow the instructions.\n\n"
                     "That’s it! You’re officially a hacker! 😎\n\n"
                     "No secret handshake required, but do make sure you follow the instructions carefully, so you don’t break the internet. 😅\n\n"
