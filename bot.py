@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return """
+    return ("""
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,7 +114,7 @@ def home():
     </div>
 </body>
 </html>
-    """
+    """)
 
 def run_flask():
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
