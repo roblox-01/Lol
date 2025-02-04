@@ -446,6 +446,28 @@ async def help_command(ctx):
 
     await ctx.send(embed=embed)
 
+@bot.command(name="aboutserver")
+async def aboutserver(ctx):
+    embed = discord.Embed(
+        title="⚡ Welcome to ShadowMods!",
+        description=(
+            "🚀 **ShadowMods** is the ultimate hub for coders, hackers, and modders! \n"
+            "💻 Discuss **coding**, 🔧 explore **modding**, and 🤖 build **powerful bots**.\n"
+            "🔗 Connect with like-minded devs and push the limits of creativity!\n\n"
+            "**🔥 What We Offer:**\n"
+            "🛠️ Custom tools & scripts\n"
+            "🎮 Game modding resources\n"
+            "📜 Exclusive tutorials & guides\n"
+            "💬 Active and friendly community\n\n"
+            "Join us and level up your skills! 🚨"
+        ),
+        color=discord.Color.red()
+    )
+    embed.set_thumbnail(url=ctx.guild.icon.url if ctx.guild.icon else None)
+    embed.set_footer(text=f"Server ID: {ctx.guild.id} • Stay sharp, stay ahead ⚡")
+
+    await ctx.send(embed=embed)
+
 @bot.command()
 async def support(ctx):
     embed = discord.Embed(
