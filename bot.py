@@ -117,7 +117,7 @@ def home():
     """
 
 def run_flask():
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
 threading.Thread(target=run_flask).start()
 
