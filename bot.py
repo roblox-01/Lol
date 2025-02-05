@@ -496,6 +496,24 @@ async def members(ctx):
     )
     await ctx.send(embed=embed)
 
+@bot.command()
+async def about_server(ctx):
+    embed = discord.Embed(
+        title="🌟 About Our Server 🌟",
+        description="Welcome to **[Your Server Name]**! Here's what we offer:",
+        color=discord.Color.blue()
+    )
+    embed.add_field(name="💻 Development & Coding", value="Discuss programming, share projects, and get coding help.", inline=False)
+    embed.add_field(name="🎮 Gaming Community", value="Join game nights, find teammates, and enjoy gaming events.", inline=False)
+    embed.add_field(name="🤖 Bot Services", value="Use our custom bots for entertainment, moderation, and utilities.", inline=False)
+    embed.add_field(name="📢 Announcements & Updates", value="Stay updated with the latest news and server events.", inline=False)
+    embed.add_field(name="🎟 Support System", value="Need help? Use `!create_ticket` to contact our support team.", inline=False)
+    
+    embed.set_thumbnail(url=ctx.guild.icon.url if ctx.guild.icon else None)
+    embed.set_footer(text="Join us and be part of an awesome community!")
+
+    await ctx.send(embed=embed)
+
 @bot.command(name="snipe")
 async def snipe(ctx):
     if ctx.channel.id in sniped_messages:
