@@ -194,10 +194,10 @@ async def change_status():
     await bot.change_presence(activity=discord.Game(name=random.choice(status_list)))
 
 role_mapping = {
-    "🔥": 123456789012345678,  # Replace with the actual Gamer role ID
-    "💻": 234567890123456789,  # Replace with the actual Coder role ID
-    "🎨": 345678901234567890,  # Replace with the actual Artist role ID
-    "🎵": 456789012345678901   # Replace with the actual Music Lover role ID
+    "🔥": 1254276552863125577,  # Replace with the actual Gamer role ID
+    "💻": 1285429982369284107,  # Replace with the actual Coder role ID
+    "🎨": 1285434229982757017,  # Replace with the actual Artist role ID
+    "🎵": 1332361705208156160,  # Replace with the actual Music Lover role ID
 }
 
 @bot.command()
@@ -205,10 +205,10 @@ async def setup_roles(ctx):
     embed = discord.Embed(
         title="🎭 Role Selection",
         description="React to this message to get your roles!\n\n"
-                    "🔥 - Gamer\n"
-                    "💻 - Coder\n"
-                    "🎨 - Artist\n"
-                    "🎵 - Music Lover",
+                    "🔥 - DarkRole\n"
+                    "💻 - Hacker\n"
+                    "🎨 - Announcement Ping\n"
+                    "🎵 - YouTube Ping",
         color=discord.Color.blue()
     )
 
