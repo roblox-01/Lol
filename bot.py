@@ -965,23 +965,31 @@ async def apply(ctx):
 
 @bot.command(name="applyhelp")
 async def applyhelp(ctx):
-    # Send the list of questions to the user who called the command
+    embed = discord.Embed(
+        title="📝 ShadowMods Application Questions",
+        description="If you're interested in becoming a moderator, please answer the following questions:",
+        color=discord.Color.blue()
+    )
+
     questions = [
-        "1. What experience do you have with game cheats, web development, AI development, or Discord bot development?",
-        "2. How would you handle a situation where a user is discussing or sharing cheats in a game where it is not allowed?",
-        "3. What is your approach to handling technical questions from users who need help with coding or development issues?",
-        "4. How would you manage a situation where a user posts malicious code or harmful scripts in the server?",
-        "5. What steps would you take if a user reported another for violating the server’s rules or using cheats unethically?",
-        "6. How familiar are you with server management tools, and which tools would you use to maintain a secure environment in ShadowMods?",
-        "7. How would you handle a disagreement between two members on a development project or hack you’re working on?",
-        "8. How do you ensure the server stays informative and helpful, especially for users learning about development or game cheats?",
-        "9. What would you do if a user was spamming the server with development tools or tools related to game cheats that are not relevant to the current topic?",
-        "10. Why do you want to be a moderator for ShadowMods, and how would your technical knowledge benefit the server community?"
+        "1️⃣ **What experience do you have with game cheats, web development, AI development, or Discord bot development?**",
+        "2️⃣ **How would you handle a user discussing or sharing cheats in a game where it's not allowed?**",
+        "3️⃣ **How do you approach answering technical questions from users needing help with coding or development?**",
+        "4️⃣ **What actions would you take if a user posted malicious code or harmful scripts?**",
+        "5️⃣ **How would you handle a report of a user violating server rules or using cheats unethically?**",
+        "6️⃣ **How familiar are you with server management tools, and which would you use to keep ShadowMods secure?**",
+        "7️⃣ **How would you resolve a disagreement between members collaborating on a development project or hack?**",
+        "8️⃣ **How do you ensure the server remains informative and helpful for users learning about development or cheats?**",
+        "9️⃣ **What steps would you take if a user spammed the server with irrelevant development tools or cheats?**",
+        "🔟 **Why do you want to be a moderator, and how would your technical knowledge benefit the ShadowMods community?**"
     ]
 
-    # Send the questions to the user who called the command
     for question in questions:
-        await ctx.send(question)
+        embed.add_field(name="‎", value=question, inline=False)
+
+    embed.set_footer(text="ShadowMods Staff Applications")
+
+    await ctx.send(embed=embed)
 
 @bot.command(name="delete_ticket")
 @commands.has_permissions(manage_channels=True)
