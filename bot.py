@@ -193,6 +193,60 @@ async def change_status():
     """Rotates the bot's status every 10 seconds."""
     await bot.change_presence(activity=discord.Game(name=random.choice(status_list)))
 
+role_mapping = {
+    "🔥": 123456789012345678,  # Replace with the actual Gamer role ID
+    "💻": 234567890123456789,  # Replace with the actual Coder role ID
+    "🎨": 345678901234567890,  # Replace with the actual Artist role ID
+    "🎵": 456789012345678901   # Replace with the actual Music Lover role ID
+}
+
+@bot.command()
+async def setup_roles(ctx):
+    embed = discord.Embed(
+        title="🎭 Role Selection",
+        description="React to this message to get your roles!\n\n"
+                    "🔥 - Gamer\n"
+                    "💻 - Coder\n"
+                    "🎨 - Artist\n"
+                    "🎵 - Music Lover",
+        color=discord.Color.blue()
+    )
+
+    message = await ctx.send(embed=embed)
+
+    for emoji in role_mapping.keys():
+        await message.add_reaction(emoji)
+
+@bot.event
+async def on_raw_reaction_add(payload):
+    if payload.member.bot:
+        return
+
+    guild = bot.get_guild(payload.guild_id)
+    role_id = role_mapping.get(str(payload.emoji))
+    
+    if role_id:
+        role = guild.get_role(role_id)
+        if role:
+            await payload.member.add_roles(role)
+            await payload.member.send(f"You have been given the **{role.name}** role!")
+
+@bot.event
+async def on_raw_reaction_remove(payload):
+    guild = bot.get_guild(payload.guild_id)
+    member = guild.get_member(payload.user_id)
+
+    if not member or member.bot:
+        return
+
+    role_id = role_mapping.get(str(payload.emoji))
+    
+    if role_id:
+        role = guild.get_role(role_id)
+        if role:
+            await member.remove_roles(role)
+            await member.send(f"Your **{role.name}** role has been removed.")
+
 # --------------------------
 # Welcome System
 # --------------------------
@@ -500,7 +554,7 @@ async def members(ctx):
 async def about_server(ctx):
     embed = discord.Embed(
         title="🌟 About Our Server 🌟",
-        description="Welcome to **[Your Server Name]**! Here's what we offer:",
+        description="Welcome to **ShadowMods**! Here's what we offer:",
         color=discord.Color.blue()
     )
     embed.add_field(name="💻 Development & Coding", value="Discuss programming, share projects, and get coding help.", inline=False)
