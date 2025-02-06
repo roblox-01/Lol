@@ -641,44 +641,59 @@ async def afk(ctx, *, reason="AFK"):
     
 @bot.command(name="sharecheat")
 async def share_cheat(ctx, *, description=None):
+    ROLE_ID = 1285429982369284107  # Replace with your actual role ID
+
     if not description:
         await ctx.send("Please provide a description of the cheat or mod you're sharing.")
         return
 
     await ctx.send("Please upload the cheat or mod file or provide a link.")
-    
+
     def check(m):
         return m.author == ctx.author and (m.attachments or m.content.startswith("http"))
 
     try:
-        # Wait for the user to send the file or link
         message = await bot.wait_for("message", check=check, timeout=60)
 
         if message.attachments:
-            # Get the attachment URL and filename
-            file_url = message.attachments[0].url
-            file_name = message.attachments[0].filename
+            file = message.attachments[0]
+            file_url = file.url
+            file_name = file.filename
             
-            # Check if the file is an image by looking at its extension
             image_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp']
+            text_extensions = ['.txt', '.json', '.lua', '.py', '.cfg']
+
             if any(file_name.lower().endswith(ext) for ext in image_extensions):
                 embed = discord.Embed(
                     title="New Cheat Shared!",
                     description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
                     color=discord.Color.green()
                 )
-                embed.set_image(url=file_url)  # Show the image directly in the embed
-            else:
-                # If it's not an image, we just show the file name and a link
+                embed.set_image(url=file_url)
+
+            elif any(file_name.lower().endswith(ext) for ext in text_extensions):
+                file_bytes = await file.read()
+                content_preview = file_bytes.decode(errors="ignore").splitlines()[:10]
+                preview_text = "\n".join(content_preview)
+                preview_text = preview_text[:1000]
+
                 embed = discord.Embed(
                     title="New Cheat Shared!",
                     description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
                     color=discord.Color.green()
                 )
-                embed.add_field(name="File", value=f"[{file_name}]({file_url})", inline=False)
-        
+                embed.add_field(name="Preview:", value=f"```{preview_text}```", inline=False)
+                embed.add_field(name="Download", value=f"[Click Here]({file_url})", inline=False)
+
+            else:
+                embed = discord.Embed(
+                    title="New Cheat Shared!",
+                    description=f"**Description:** {description}\n**File Name:** {file_name}\nShared by {ctx.author.mention}",
+                    color=discord.Color.green()
+                )
+                embed.add_field(name="Download", value=f"[Click Here]({file_url})", inline=False)
+
         elif message.content.startswith("http"):
-            # If it's a URL, simply display the link
             file_url = message.content
             embed = discord.Embed(
                 title="New Cheat Shared!",
@@ -689,16 +704,15 @@ async def share_cheat(ctx, *, description=None):
         else:
             await ctx.send("No valid file or link provided.")
             return
-        
-        # Log or share the cheat in a designated channel
+
         log_channel = bot.get_channel(1329462404870045716)  # Replace with your channel ID
-        await log_channel.send(embed=embed)
-        await ctx.send("Thank you for sharing! Your cheat has been logged.")
+        role_mention = f"<@&{ROLE_ID}>"  # Formats role mention
+
+        await log_channel.send(f"{role_mention}, a new cheat has been shared!", embed=embed)
+        await ctx.send("Thank you for sharing! Your cheat has been logged and the role has been notified.")
         
     except asyncio.TimeoutError:
         await ctx.send("You didn't provide a file or link in time.")
-
-import asyncio
 
 @bot.command(name="uptime")
 async def uptime(ctx):
