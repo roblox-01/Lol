@@ -13,6 +13,7 @@ import asyncio
 import datetime
 from io import BytesIO
 from PIL import Image, ImageOps, ImageEnhance
+import re
 
 # Load environment variables
 load_dotenv()
@@ -391,6 +392,24 @@ def get_ai_response(message):
         print(f"Error: {e}")
         return "An unexpected error occurred. Please try again later!"
 
+def check_password_strength(password):
+    length = len(password) >= 8
+    uppercase = bool(re.search(r"[A-Z]", password))
+    lowercase = bool(re.search(r"[a-z]", password))
+    numbers = bool(re.search(r"\d", password))
+    special_chars = bool(re.search(r"[!@#$%^&*(),.?\":{}|<>]", password))
+
+    score = sum([length, uppercase, lowercase, numbers, special_chars])
+
+    if score == 5:
+        return "🔥 Very Strong"
+    elif score >= 3:
+        return "✅ Strong"
+    elif score == 2:
+        return "⚠️ Medium"
+    else:
+        return "❌ Weak"
+
 @bot.command(name="aihelp")
 async def ai_help(ctx, *, message: str):
     if ctx.channel.id != ALLOWED_CHANNEL_ID:
@@ -549,6 +568,11 @@ async def members(ctx):
         color=discord.Color.green()
     )
     await ctx.send(embed=embed)
+
+@bot.command()
+async def pwcheck(ctx, *, password: str):
+    strength = check_password_strength(password)
+    await ctx.send(f"🔐 Password Strength: **{strength}**")
 
 @bot.command()
 async def about_server(ctx):
