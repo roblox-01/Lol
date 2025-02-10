@@ -184,7 +184,7 @@ LAST_VIDEO_IDS = {channel_id: None for channel_id in CHANNEL_CONFIG.keys()}
 
 # Status rotation
 status_list = [
-    "Powered by ShadowMods!",
+    "Powered by ＳＨΛＤＯＷＴΞＣＨ!",
     "Use !help for commands!",
     "Watching for new uploads!"
 ]
@@ -365,7 +365,7 @@ def get_ai_response(message):
             "model": "jamba-instruct-preview",
             "messages": [
                 {
-                    "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ShadowMods. But the owner of ShadowMods and your creator is <@1053079666459693077>. User message: {message}\nResponse:",
+                    "content": f"You are a helpful Discord bot assistant named SHADOW AI. Your owner is ＳＨΛＤＯＷＴΞＣＨ. But the owner of ＳＨΛＤＯＷＴΞＣＨ and your creator is <@1053079666459693077>. User message: {message}\nResponse:",
                     "role": "user"
                 }
             ],
@@ -381,7 +381,7 @@ def get_ai_response(message):
 
         if "choices" in data and data["choices"]:
             fetched_text = data['choices'][0]['message']['content']
-            replaced_text = fetched_text.replace("jamba", "SHADOW AI").replace("AI21", "ShadowMods")
+            replaced_text = fetched_text.replace("jamba", "SHADOW AI").replace("AI21", "ＳＨΛＤＯＷＴΞＣＨ")
             return replaced_text
 
         return "Sorry, I couldn't generate a response. Try again!"
@@ -427,7 +427,7 @@ async def ai_help(ctx, *, message: str):
 @bot.command(name="help")
 async def help_command(ctx):
     embed = discord.Embed(
-        title="📜 Dark Phoenix Commands",
+        title="📜 Dark Phoenix(V4) Commands",
         description="Here is a list of available commands categorized for easy access.",
         color=discord.Color.blue()
     )
@@ -515,7 +515,7 @@ async def help_command(ctx):
         inline=False
     )
 
-    embed.set_footer(text="Dark Phoenix Bot • Powered by ShadowMods")
+    embed.set_footer(text="Dark Phoenix Bot • Powered by ＳＨΛＤＯＷＴΞＣＨ")
 
     await ctx.send(embed=embed)
 
@@ -551,7 +551,7 @@ async def bot_info(ctx):
         color=discord.Color.blue()
     )
     embed.set_thumbnail(url=bot.user.avatar.url if bot.user.avatar else None)
-    embed.add_field(name="Developer", value="ShadowMods", inline=True)
+    embed.add_field(name="Developer", value="ＳＨΛＤＯＷＴΞＣＨ", inline=True)
     embed.add_field(name="Servers", value=f"{len(bot.guilds)}", inline=True)
     embed.add_field(name="Users", value=f"{sum(g.member_count for g in bot.guilds)}", inline=True)
     embed.add_field(name="Uptime", value=f"{str(datetime.datetime.utcnow() - start_time).split('.')[0]}", inline=True)
@@ -578,7 +578,7 @@ async def pwcheck(ctx, *, password: str):
 async def about_server(ctx):
     embed = discord.Embed(
         title="🌟 About Our Server 🌟",
-        description="Welcome to **ShadowMods**! Here's what we offer:",
+        description="Welcome to **ＳＨΛＤＯＷＴΞＣＨ**! Here's what we offer:",
         color=discord.Color.blue()
     )
     embed.add_field(name="💻 Development & Coding", value="Discuss programming, share projects, and get coding help.", inline=False)
@@ -834,7 +834,7 @@ async def rules(ctx):
     Sends the server rules in an embedded message with emojis for a fun presentation.
     """
     embed = discord.Embed(
-        title="🎮 Welcome to ShadowMods Server! 🚀",
+        title="🎮 Welcome to ＳＨΛＤＯＷＴΞＣＨ Server! 🚀",
         description="Let's keep this community awesome by following these rules:",
         color=discord.Color.purple()
     )
@@ -864,7 +864,7 @@ async def rules(ctx):
     Sends the server rules in an embedded message with emojis for a fun presentation.
     """
     embed = discord.Embed(
-        title="🎮 Welcome to ShadowMods Pro Server! 🚀",
+        title="🎮 Welcome to ＳＨΛＤＯＷＴΞＣＨ Pro Server! 🚀",
         description="Let's keep this community awesome by following these rules:",
         color=discord.Color.purple()
     )
@@ -946,14 +946,14 @@ async def faq(ctx):
 @bot.command()
 async def cheats(ctx):
     embed = discord.Embed(
-        title="ShadowMods",
+        title="ＳＨΛＤＯＷＴΞＣＨ",
         description="🚨 Attention, Cheaters! Want Access To All Our Free Cheats? 🚨\n"
                     "You’re in luck! Here’s what you need to do:\n\n"
                     "Head over to our website: [Click here to download](https://shadowmods.onrender.com/services/cheats)\n"
                     "Grab the cheats and follow the instructions.\n\n"
                     "That’s it! You’re officially a hacker! 😎\n\n"
                     "No secret handshake required, but do make sure you follow the instructions carefully, so you don’t break the internet. 😅\n\n"
-                    "Thanks For Using ShadowMods! Have A Nice Day!",
+                    "Thanks For Using ＳＨΛＤＯＷＴΞＣＨ! Have A Nice Day!",
         color=discord.Color.blue()
     )
 
@@ -987,11 +987,11 @@ async def apply(ctx):
         "3. What is your approach to handling technical questions from users who need help with coding or development issues?",
         "4. How would you manage a situation where a user posts malicious code or harmful scripts in the server?",
         "5. What steps would you take if a user reported another for violating the server’s rules or using cheats unethically?",
-        "6. How familiar are you with server management tools, and which tools would you use to maintain a secure environment in ShadowMods?",
+        "6. How familiar are you with server management tools, and which tools would you use to maintain a secure environment in ＳＨΛＤＯＷＴΞＣＨ?",
         "7. How would you handle a disagreement between two members on a development project or hack you’re working on?",
         "8. How do you ensure the server stays informative and helpful, especially for users learning about development or game cheats?",
         "9. What would you do if a user was spamming the server with development tools or tools related to game cheats that are not relevant to the current topic?",
-        "10. Why do you want to be a moderator for ShadowMods, and how would your technical knowledge benefit the server community?"
+        "10. Why do you want to be a moderator for ＳＨΛＤＯＷＴΞＣＨ, and how would your technical knowledge benefit the server community?"
     ]
 
     # Send the questions to the new private channel
@@ -1004,7 +1004,7 @@ async def apply(ctx):
 @bot.command(name="applyhelp")
 async def applyhelp(ctx):
     embed = discord.Embed(
-        title="📝 ShadowMods Application Questions",
+        title="📝 ＳＨΛＤＯＷＴΞＣＨ Application Questions",
         description="If you're interested in becoming a moderator, please answer the following questions:",
         color=discord.Color.blue()
     )
@@ -1015,17 +1015,17 @@ async def applyhelp(ctx):
         "3️⃣ **How do you approach answering technical questions from users needing help with coding or development?**",
         "4️⃣ **What actions would you take if a user posted malicious code or harmful scripts?**",
         "5️⃣ **How would you handle a report of a user violating server rules or using cheats unethically?**",
-        "6️⃣ **How familiar are you with server management tools, and which would you use to keep ShadowMods secure?**",
+        "6️⃣ **How familiar are you with server management tools, and which would you use to keep ＳＨΛＤＯＷＴΞＣＨ secure?**",
         "7️⃣ **How would you resolve a disagreement between members collaborating on a development project or hack?**",
         "8️⃣ **How do you ensure the server remains informative and helpful for users learning about development or cheats?**",
         "9️⃣ **What steps would you take if a user spammed the server with irrelevant development tools or cheats?**",
-        "🔟 **Why do you want to be a moderator, and how would your technical knowledge benefit the ShadowMods community?**"
+        "🔟 **Why do you want to be a moderator, and how would your technical knowledge benefit the ＳＨΛＤＯＷＴΞＣＨ community?**"
     ]
 
     for question in questions:
         embed.add_field(name="‎", value=question, inline=False)
 
-    embed.set_footer(text="ShadowMods Staff Applications")
+    embed.set_footer(text="ＳＨΛＤＯＷＴΞＣＨ Staff Applications")
 
     await ctx.send(embed=embed)
 
@@ -1209,7 +1209,7 @@ async def serverinfo(ctx):
     embed.add_field(name='💬 Channels', value=f'{len(ctx.guild.text_channels)} Text | {len(ctx.guild.voice_channels)} Voice', inline=True)
     embed.add_field(name='🌎 Region', value=f'{ctx.guild.preferred_locale}', inline=True)
     embed.set_thumbnail(url=ctx.guild.icon.url)
-    embed.set_footer(text="⭐ • ShadowMods")    
+    embed.set_footer(text="⭐ • ＳＨΛＤＯＷＴΞＣＨ")    
     embed.set_author(name=f'{ctx.author.name}', icon_url=ctx.author.avatar.url)
     await ctx.send(embed=embed)
 
@@ -1225,7 +1225,7 @@ async def announce(ctx, *, message: str):
         description=message,
         color=discord.Color.blue()
     )
-    embed.set_footer(text="Announcement from the bot owner")
+    embed.set_footer(text="Announcement from ＳＨΛＤＯＷＴΞＣＨ!")
     
     # Send the embed in the same channel
     await ctx.send(embed=embed)
