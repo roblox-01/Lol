@@ -1059,7 +1059,7 @@ async def delete_ticket(ctx, channel_id: int):
 @bot.command(name="close_ticket")
 async def close_ticket(ctx, channel_id: int):
     # Predefined closed category ID
-    closed_category_id = 1306771963095552051  # Replace this with your actual closed category ID
+    closed_category_id = 1327779969983840357  # Replace this with your actual closed category ID
 
     # Get the channel by the provided channel_id
     ticket_channel = ctx.guild.get_channel(channel_id)
@@ -1127,7 +1127,7 @@ async def report(ctx, *, reason=None):
         return
 
     # Define the category ID where the report channels will be created
-    category_id = 1338854106017566852  # Replace with your actual category ID
+    category_id = 1327797397648314410  # Replace with your actual category ID
     category = discord.utils.get(ctx.guild.categories, id=category_id)
 
     if category is None:
